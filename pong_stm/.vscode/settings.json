@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "fonts.h": "c",
+        "gpio.h": "c",
+        "spi.h": "c",
+        "main.h": "c",
+        "stm32f4xx_it.h": "c",
+        "ili9486.h": "c",
+        "vector": "cpp"
+    }
+}
