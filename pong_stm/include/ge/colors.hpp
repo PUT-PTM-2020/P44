@@ -1,7 +1,10 @@
+#pragma once
+
 namespace GE 
 {
 
 class Color {
+public:
     static const uint16_t black = 0x0000;
     static const uint16_t blue = 0x001F;
     static const uint16_t red = 0xF800;
