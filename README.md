@@ -2,6 +2,7 @@ Używamy Visial Studio Code z wtyczką PlatformoIO IDE
 
 STM podłączmy do wyświetlacza w taki sposób:
 
+<pre>
 STM : Wyświetlacz
 5V   ->  5V
 GND  ->  GND
@@ -25,4 +26,5 @@ PE15 ->  DB12
 PD8  ->  DB13
 PD9  ->  DB14
 PD10 ->  DB15
+</pre>
 
