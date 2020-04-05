@@ -11,6 +11,11 @@ void setup() {
     rec.draw();
 }
 
+void gameLoop() {
+    
+}
+
 void loop() {
     
 }
+

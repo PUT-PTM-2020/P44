@@ -20,6 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tim.h"
 #include "gpio.h"
 #include "fsmc.h"
 
@@ -45,12 +46,17 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  if(htim->Instance == TIM4) {
+    gameLoop();
+  }
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -87,8 +93,10 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_FSMC_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   setup();
+  HAL_TIM_Base_Start_IT(&htim4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
