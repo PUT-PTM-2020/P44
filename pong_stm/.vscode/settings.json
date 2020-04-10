@@ -6,6 +6,7 @@
         "main.h": "c",
         "stm32f4xx_it.h": "c",
         "ili9486.h": "c",
-        "vector": "cpp"
+        "vector": "cpp",
+        "limits": "cpp"
     }
 }

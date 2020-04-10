@@ -8,9 +8,10 @@ namespace GE
 
 class Rect : public Shape {
 private:
-    uint16_t sizeX;
-    uint16_t sizeY;
-
+    uint16_t newSizeX;
+    uint16_t newSizeY;
+    uint16_t oldSizeX;
+    uint16_t oldSizeY;
 public:
     Rect(uint16_t sizeX, uint16_t sizeY, uint16_t posX, uint16_t posY, uint16_t color = GE::Color::white);
     
@@ -21,6 +22,8 @@ public:
     void setSizeY(uint16_t sizeY);
     
     void draw();
+
+    ~Rect();
 };
 
 }

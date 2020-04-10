@@ -20,6 +20,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
+#include "spi.h"
 #include "tim.h"
 #include "gpio.h"
 #include "fsmc.h"
@@ -94,6 +96,8 @@ int main(void)
   MX_GPIO_Init();
   MX_FSMC_Init();
   MX_TIM4_Init();
+  MX_I2C1_Init();
+  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   setup();
   HAL_TIM_Base_Start_IT(&htim4);

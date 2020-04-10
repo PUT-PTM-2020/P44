@@ -33,4 +33,4 @@
    - 0..7: DMA channel
    - 0..7: Stream
    - 1..3: DMA priority (0=low..3=very high) */
-#define LCD_DMA           2, 7, 7, 0
+#define LCD_DMA           2, 7, 7, 3

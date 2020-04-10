@@ -1,5 +1,6 @@
 #pragma once
 #include "stm32_adafruit_lcd.h"
+#include "colors.hpp"
 
 namespace GE 
 {

@@ -8,7 +8,8 @@ namespace GE
 
 class Shape {
 protected:
-    Vector2i pos;
+    Vector2i newPos;
+    Vector2i oldPos;
     uint16_t color;
     
 public:
