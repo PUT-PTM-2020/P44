@@ -2,20 +2,23 @@
 #include "ge.hpp"
 
 GE::Display dis;
-GE::Rect rec(10, 10, 10, 10);
+GE::Rect rect(10, 10, 10, 10);
 
+//Co się ma dziać przy uruchomieniu
 void setup() {
     dis.init();
-    rec.draw();
-    rec.move(10, 10);
-    rec.draw();
 }
 
+//Pętla wykonująca się 60 razy na sekundę
 void gameLoop() {
     
+    rect.move(10, 10);
+    rect.draw();
 }
 
+//Pętla nieskończona (wykonuje się pomiędzy gameLoop())
 void loop() {
+    
     
 }
 
