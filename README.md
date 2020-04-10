@@ -3,7 +3,7 @@ Używamy Visial Studio Code z wtyczką PlatformoIO IDE
 Pliki .cpp umieszczamy w pong_stm/src  
 Pliki .hpp umieszczamy w pong_stm/include (.hpp zamiast .h aby rozróżniać kod C++ od C)  
 
-STM podłączmy do wyświetlacza w taki sposób:
+STM podłączmy doa wyświetlacza w taki sposób:
 
 <pre>
 STM : Wyświetlacz
