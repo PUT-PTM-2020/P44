@@ -7,6 +7,7 @@
         "stm32f4xx_it.h": "c",
         "ili9486.h": "c",
         "vector": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "stm32f4xx_hal.h": "c"
     }
 }
