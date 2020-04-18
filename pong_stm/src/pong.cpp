@@ -1,18 +1,20 @@
 #include "pong.hpp"
 #include "ge.hpp"
+#include "he.hpp"
 
-GE::Display dis;
-GE::Circle cir(10, 10, 10);
+GE::Display* display;
+HE::Clock* clock;
 
 //Co się ma dziać przy uruchomieniu
 void setup() {
-    dis.init();
+    display = new GE::Display();
+    clock = new HE::Clock();
+    
 }
 
 //Pętla wykonująca się 60 razy na sekundę
 void gameLoop() {
-    cir.draw();
-    cir.move(1, 1);
+    
     
 }
 

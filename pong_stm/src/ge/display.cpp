@@ -1,6 +1,6 @@
 #include "ge/display.hpp"
 
-void GE::Display::init() { BSP_LCD_Init(); }
+GE::Display::Display() { BSP_LCD_Init(); }
 
 uint16_t GE::Display::getSizeX() { return BSP_LCD_GetXSize(); }
 

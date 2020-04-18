@@ -52,9 +52,9 @@ void MX_FSMC_Init(void)
   hsram1.Init.PageSize = FSMC_PAGE_SIZE_NONE;
   /* Timing */
   Timing.AddressSetupTime = 0;
-  Timing.AddressHoldTime = 0;
+  Timing.AddressHoldTime = 15;
   Timing.DataSetupTime = 10;
-  Timing.BusTurnAroundDuration = 0;
+  Timing.BusTurnAroundDuration = 10;
   Timing.CLKDivision = 16;
   Timing.DataLatency = 17;
   Timing.AccessMode = FSMC_ACCESS_MODE_A;

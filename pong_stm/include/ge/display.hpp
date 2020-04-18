@@ -7,7 +7,7 @@ namespace GE
 
 class Display {
 public:
-    void init();
+    Display();
     uint16_t getSizeX();
     uint16_t getSizeY();
     uint16_t getBackColor();
