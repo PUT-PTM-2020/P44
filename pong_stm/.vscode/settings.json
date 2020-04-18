@@ -8,6 +8,7 @@
         "ili9486.h": "c",
         "vector": "cpp",
         "limits": "cpp",
+<<<<<<< HEAD
         "deque": "cpp",
         "string": "cpp",
         "unordered_map": "cpp",
@@ -30,6 +31,9 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "typeinfo": "cpp",
+=======
+        "stm32f4xx_hal.h": "c",
+>>>>>>> 081fca3792a4945759844afc74a588055c8d35bd
         "array": "cpp",
         "atomic": "cpp",
         "*.tcc": "cpp",
@@ -43,9 +47,36 @@
         "cstdlib": "cpp",
         "cwchar": "cpp",
         "cwctype": "cpp",
+<<<<<<< HEAD
         "algorithm": "cpp",
         "utility": "cpp",
         "iosfwd": "cpp"
         "stm32f4xx_hal.h": "c"
+=======
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "exception": "cpp",
+        "algorithm": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "optional": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "fstream": "cpp",
+        "initializer_list": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp",
+        "istream": "cpp",
+        "new": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "typeinfo": "cpp"
+>>>>>>> 081fca3792a4945759844afc74a588055c8d35bd
     }
 }

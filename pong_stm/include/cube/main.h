@@ -61,19 +61,14 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define Button_3_Pin GPIO_PIN_2
 #define Button_3_GPIO_Port GPIOE
-#define Button_3_EXTI_IRQn EXTI2_IRQn
 #define Button_4_Pin GPIO_PIN_3
 #define Button_4_GPIO_Port GPIOE
-#define Button_4_EXTI_IRQn EXTI3_IRQn
 #define Button_5_Pin GPIO_PIN_4
 #define Button_5_GPIO_Port GPIOE
-#define Button_5_EXTI_IRQn EXTI4_IRQn
 #define Button_6_Pin GPIO_PIN_5
 #define Button_6_GPIO_Port GPIOE
-#define Button_6_EXTI_IRQn EXTI9_5_IRQn
 #define Button_7_Pin GPIO_PIN_6
 #define Button_7_GPIO_Port GPIOE
-#define Button_7_EXTI_IRQn EXTI9_5_IRQn
 #define Radio_SCK_Pin GPIO_PIN_5
 #define Radio_SCK_GPIO_Port GPIOA
 #define Radio_MISO_Pin GPIO_PIN_6
@@ -90,10 +85,8 @@ void Error_Handler(void);
 #define OLED_SDA_GPIO_Port GPIOB
 #define Button_1_Pin GPIO_PIN_0
 #define Button_1_GPIO_Port GPIOE
-#define Button_1_EXTI_IRQn EXTI0_IRQn
 #define Button_2_Pin GPIO_PIN_1
 #define Button_2_GPIO_Port GPIOE
-#define Button_2_EXTI_IRQn EXTI1_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
