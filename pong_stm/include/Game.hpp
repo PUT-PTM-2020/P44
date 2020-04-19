@@ -10,7 +10,7 @@ class Game{
 	static HE::Clock  frameClock;
 
 	static ObjectsVector<UpdateObject*> updateVector;
-	static ObjectsVector<GE::Shape*> drawVector;
+	static ObjectsVector<GE::Shape*> drawVector,drawOnce;
 	static void calcTimes();
 public:
 
@@ -35,4 +35,5 @@ public:
 
 	static ObjectsVector<UpdateObject*>& getUpdateVector();
 	static ObjectsVector<GE::Shape*> & getDrawVector();
+	static ObjectsVector<GE::Shape*> & getDrawOnce();
 };

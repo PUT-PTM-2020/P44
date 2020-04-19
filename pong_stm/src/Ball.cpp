@@ -2,7 +2,7 @@
 #include "Game.hpp"
 
 Ball::Ball(float posX, float posY) : 
-	DrawnObject(new GE::Circle(BALL_DEFAULT_PIXEL_RADIUS,10,10,GE::Color::red)),
+	DrawnObject(new GE::Circle(BALL_DEFAULT_PIXEL_RADIUS,10,10,GE::Color::red),1),
 	PhysicalObject(Physics::Materials::wood, posX, posY),
 	MovingObject(BALL_DEFAULT_MASS) {
 	this->pixelRaidus = BALL_DEFAULT_PIXEL_RADIUS;

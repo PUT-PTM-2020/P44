@@ -3,7 +3,7 @@
 const float Physics::pixelToRealRatio = PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO;
 float Physics::viscosity = PHYSICS_DEFAULT_VISCOSITY;
 float Physics::grav = PHYSICS_DEFAULT_GRAV;
-float Physics::wind = -4.0f;
+float Physics::wind = 0.0f;
 
 const Physics::Material Physics::Materials::wood = { 1.0f, 1.0f };
 const Physics::Material Physics::Materials::ball = { 1.0f, 1.0f };

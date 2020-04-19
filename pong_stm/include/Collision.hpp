@@ -1,4 +1,3 @@
-/*
 #pragma once
 
 #include "Racket.hpp"
@@ -6,7 +5,7 @@
 #include "Wall.hpp"
 #include "Table.hpp"
 #include "ObjectsVector.hpp"
-//#include "Player.hpp"
+#include "Player.hpp"
 
 class Collision {
 private:
@@ -21,10 +20,9 @@ private:
 	void ballTableCol(Ball *ball, Table *table);
 	void calcballRacketCol(Ball *ball, Racket *racket);
 	void calcballTableCol(Ball *ball, Table *table);
-	//void p1Point(Ball *ball,Player *p);
-	//void p2Point(Ball *ball,Player *p);
-	GE::Clock ck;
-	GE::Clock ck1;
+	void p1Point(Ball *ball,Player *p);
+	void p2Point(Ball *ball,Player *p);
+
 
 public:
 	static int who; // Kto odbil 1-gracz pierwszy, 2- gracz drugi
@@ -37,4 +35,3 @@ public:
 	~Collision();
 };
 
-*/

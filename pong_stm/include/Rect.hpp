@@ -10,7 +10,7 @@ protected:
 	GE::Vector2f localSP, localEP;
 
 public:
-	Rect(float pixelSizeX, float pixelSizeY, float angle, Physics::Material material, float pixelPosX, float pixelPosY);
+	Rect(float pixelSizeX, float pixelSizeY, float angle, Physics::Material material, float pixelPosX, float pixelPosYi,int which);
 	virtual ~Rect();
 };
 

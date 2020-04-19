@@ -51,19 +51,19 @@ void Collision::checkCollisions() {
 }
 
 unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect) {
-	GE::Vector2i BP = ball->dObject->getPos();
-	GE::Transform trans = rect->dObject;
-	GE::Vector2f EP = trans * rect->localEP;
-	GE::Vector2f SP = trans * rect->localSP;
+	sf::Vector2f BP = ball->dObject->getPosition();
+	sf::Transform trans = rect->dObject->getTransform();
+	sf::Vector2f EP = trans * rect->localEP;
+	sf::Vector2f SP = trans * rect->localSP;
 
-	GE::Vector2f vSE = EP - SP;
-	GE::Vector2f vBS = BP - SP;
+	sf::Vector2f vSE = EP - SP;
+	sf::Vector2f vBS = BP - SP;
 
 	float lineLenghtPow = vSE.x * vSE.x + vSE.y * vSE.y;
 
 	float t = std::max(0.0f, std::min(lineLenghtPow, vSE.x * vBS.x + vSE.y * vBS.y)) / lineLenghtPow;
 
-	GE::Vector2f TP = SP + t * vSE;
+	sf::Vector2f TP = SP + t * vSE;
 
 	float distance = Physics::calcDistanceBetweenTwoPoints(TP, BP);
 	
@@ -416,10 +416,10 @@ void Collision::ballTableCol(Ball *ball, Table *table)
 
 void Collision::p1Point(Ball *ball,Player *p)
 {
-	ball->dObject->setPos(Gameplay::default_ballLPos);
+	ball->dObject->setPosition(Gameplay::default_ballLPos);
 	ball->velocityVector = { 0.0f, 0.0f };
-	ball->realPos = { Physics::calcRealValue(ball->dObject->getPos().x),
-	-Physics::calcRealValue(ball->dObject->getPos().y) };
+	ball->realPos = { Physics::calcRealValue(ball->dObject->getPosition().x),
+	-Physics::calcRealValue(ball->dObject->getPosition().y) };
 	ball->isballmove = false;
 	ball->Colision = 0;
 	ball->p1Serv = 2;
@@ -435,10 +435,10 @@ void Collision::p1Point(Ball *ball,Player *p)
 
 void Collision::p2Point(Ball *ball,Player *p)
 {
-	ball->dObject->setPos(Gameplay::default_ballRPos);
+	ball->dObject->setPosition(Gameplay::default_ballRPos);
 	ball->velocityVector = { 0.0f, 0.0f };
-	ball->realPos = { Physics::calcRealValue(ball->dObject->getPos().x),
-	-Physics::calcRealValue(ball->dObject->getPos().y) };
+	ball->realPos = { Physics::calcRealValue(ball->dObject->getPosition().x),
+	-Physics::calcRealValue(ball->dObject->getPosition().y) };
 	ball->isballmove = false;
 	ball->Colision = 0;
 	ball->p2Serv = 2;
@@ -459,14 +459,15 @@ void Collision::calcballTableCol(Ball *ball, Table *table)
 	angle = atan2(ball->realPos.y, ball->realPos.x);
 	angle -= 1.57f;
 	ball->velocityVector = { 2 * ball->velocityVector.x * cos(angle),ball->velocityVector.y * sin(angle) };
+	Game::b.play();
 }
 
 
 void Collision::calcballRacketCol(Ball *ball, Racket *racket)
 {
-	GE::Transform trans = racket->dObject->getTransform();
-	GE::Vector2f SP = trans * racket->localSP;
-	GE::Vector2f EP = trans * racket->localEP;
+	sf::Transform trans = racket->dObject->getTransform();
+	sf::Vector2f SP = trans * racket->localSP;
+	sf::Vector2f EP = trans * racket->localEP;
 	float angle;
 	float tgalfa;
 	ball->isballmove = true;
@@ -476,8 +477,8 @@ void Collision::calcballRacketCol(Ball *ball, Racket *racket)
 		a2 = 0;
 	else
 	{
-		GE::Vector2f oldBallPosPix = Physics::calcPixelVector(ball->oldRealPos);
-		GE::Vector2f BallPosPix = Physics::calcPixelVector(ball->realPos);
+		sf::Vector2f oldBallPosPix = Physics::calcPixelVector(ball->oldRealPos);
+		sf::Vector2f BallPosPix = Physics::calcPixelVector(ball->realPos);
 		if (oldBallPosPix.x == BallPosPix.x || oldBallPosPix.y == BallPosPix.y)
 		{
 			a2 = 0;
@@ -489,12 +490,12 @@ void Collision::calcballRacketCol(Ball *ball, Racket *racket)
 
 	if (SP.y == EP.y)
 	{
-		tgalfa = atan2(ball->dObject->getPos().y, ball->dObject->getPos().x);
+		tgalfa = atan2(ball->dObject->getPosition().y, ball->dObject->getPosition().x);
 		tgalfa = 1.57079f- tgalfa;
 	}
 	else if (SP.x == EP.x)
 	{
-		tgalfa = atan2(ball->dObject->getPos().y, ball->dObject->getPos().x);
+		tgalfa = atan2(ball->dObject->getPosition().y, ball->dObject->getPosition().x);
 	}
 	else
 	{
@@ -533,6 +534,7 @@ void Collision::calcballRacketCol(Ball *ball, Racket *racket)
 		};
 
 	}
+	Game::b.play();
 }
 
 
@@ -542,6 +544,7 @@ Collision::~Collision() {
 	balls.clear();
 	tables.clear();
 }
+
 
 
 */

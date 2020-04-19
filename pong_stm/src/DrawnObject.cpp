@@ -1,9 +1,10 @@
 #include "DrawnObject.hpp"
 #include "Game.hpp"
 
-template <typename T> DrawnObject<T>::DrawnObject(T* obj) {
+template <typename T> DrawnObject<T>::DrawnObject(T* obj,int which) {
 	this->dObject = obj;
-	sendDrawObject();
+	if(which==0)sendDrawOnce();
+	else sendDrawObject();
 }
 
 template <typename T> void DrawnObject<T>::sendDrawObject() {
@@ -11,6 +12,13 @@ template <typename T> void DrawnObject<T>::sendDrawObject() {
 }
 template <typename T> void DrawnObject<T>::deleteDrawObject() {
 	Game::getDrawVector()._delete(dObject);
+}
+
+template <typename T> void DrawnObject<T>::sendDrawOnce() {
+	Game::getDrawOnce()._add(dObject);
+}
+template <typename T> void DrawnObject<T>::deleteDrawOnce() {
+	Game::getDrawOnce()._delete(dObject);
 }
 
 template <typename T> DrawnObject<T>::~DrawnObject() {

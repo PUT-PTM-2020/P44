@@ -3,8 +3,8 @@
 #include "Game.hpp"
 #include "Physics.hpp"
 
-Rect::Rect(float pixelSizeX, float pixelSizeY, float angle, Physics::Material material, float pixelPosX, float pixelPosY) :
-	DrawnObject(new GE::Rect(pixelSizeX,pixelSizeY,pixelPosX,pixelPosY,GE::Color::white)),
+Rect::Rect(float pixelSizeX, float pixelSizeY, float angle, Physics::Material material, float pixelPosX, float pixelPosY,int which) :
+	DrawnObject(new GE::Rect(pixelSizeX,pixelSizeY,pixelPosY,pixelPosX,GE::Color::white),which),
 	PhysicalObject (material, pixelPosX, pixelPosY) {
 	this->realLength = Physics::calcRealValue(pixelSizeY);
 	this->realWidth = Physics::calcRealValue(pixelSizeX);

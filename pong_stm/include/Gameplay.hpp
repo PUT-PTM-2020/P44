@@ -20,7 +20,6 @@ private:
     Table *table1,*table2,*net;
     static ObjectsVector<SimObject*> simVector;
     Ball *ball,*ball2;
-
 public:
 	static ObjectsVector<SimObject*>& getSimVector();
     static GE::Vector2i default_ballLPos, default_ballRPos, default_racketLPos, default_racketRPos;

@@ -5,8 +5,10 @@ template <typename T> class DrawnObject {
 protected:
 	T* dObject;
 public:
-	DrawnObject(T* obj);
+	DrawnObject(T* obj,int which);
 	void sendDrawObject();
 	void deleteDrawObject();
+	void sendDrawOnce();
+	void deleteDrawOnce();
 	virtual ~DrawnObject();
 };
