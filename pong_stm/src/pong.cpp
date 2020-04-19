@@ -7,8 +7,6 @@
 GE::Display* display;
 Game* game;
 
-
-GE::Display* display;
 HE::Clock* clock;
 HE::Radio* radio;
 
