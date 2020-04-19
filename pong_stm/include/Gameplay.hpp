@@ -8,6 +8,9 @@
 #include "Collision.hpp"
 #include "Rect.hpp"
 #include "Racket.hpp"
+#include "Wall.hpp"
+#include "Table.hpp"
+#include "he.hpp"
 
 
 class Gameplay
@@ -16,14 +19,14 @@ private:
     Wall *wallL,*wallR,*wallD;
     Table *table1,*table2,*net;
     static ObjectsVector<SimObject*> simVector;
-    Ball *ball;
+    Ball *ball,*ball2;
 
 public:
 	static ObjectsVector<SimObject*>& getSimVector();
     static GE::Vector2i default_ballLPos, default_ballRPos, default_racketLPos, default_racketRPos;
 	static int player1Score, player2Score;
     static int mode;
-    static Collision collision;
+    //static Collision collision;
 	void simulateObjects();
 	void simulate();
     Gameplay();

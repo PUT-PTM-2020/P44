@@ -29,7 +29,9 @@ public:
 	Ball(float posX, float posY);
 	void setPixelSize(const float &pixelRaidus);
 	void update();
-	void simulation();
+	void simulation(GE::Vector2i *pos);
+	void setPos(GE::Vector2i pos);
+	GE::Vector2i getPos();
 	~Ball();
 	void test();
 	

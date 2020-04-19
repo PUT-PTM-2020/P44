@@ -2,19 +2,21 @@
 #include "Gameplay.hpp"
 
 class Game{
-	static const int simPerFrame;
+
 	static float lastTime;
 	static float elapsedTime;
 	static float simTime;
-	static int  clock,clock1;
-	static int  frameClock;
+	static HE::Clock  clock,clock1;
+	static HE::Clock  frameClock;
 
 	static ObjectsVector<UpdateObject*> updateVector;
 	static ObjectsVector<GE::Shape*> drawVector;
 	static void calcTimes();
 public:
 
+	Game();
 	static float timeForBall;
+	static const int simPerFrame;
 	static bool reset_ball;
 	static bool buttonPress;
 

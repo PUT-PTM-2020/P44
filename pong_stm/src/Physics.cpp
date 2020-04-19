@@ -3,7 +3,7 @@
 const float Physics::pixelToRealRatio = PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO;
 float Physics::viscosity = PHYSICS_DEFAULT_VISCOSITY;
 float Physics::grav = PHYSICS_DEFAULT_GRAV;
-float Physics::wind = 0.0f;
+float Physics::wind = -4.0f;
 
 const Physics::Material Physics::Materials::wood = { 1.0f, 1.0f };
 const Physics::Material Physics::Materials::ball = { 1.0f, 1.0f };
@@ -26,7 +26,7 @@ GE::Vector2f Physics::calcRealVector(const GE::Vector2f &pixelVector) {
 }
 
 //Przeciążenie, aby działało też dla wektorów intowych
-GE::Vector2f Physics::calcRealVector(const GE::Vector2f &pixelVector) {
+GE::Vector2f Physics::calcRealVector(const GE::Vector2i &pixelVector) {
 	float ptrr = pixelToRealRatio;
 	return { (float)pixelVector.x * ptrr, (float)pixelVector.y * ptrr };
 }
@@ -44,8 +44,8 @@ int Physics::calcPixelValue(const float &realValue) {
 	return realValue / pixelToRealRatio;
 }
 
-GE::Vector2i Physics::swapY(const GE::Vector2f &pos) {
-	return { (int)pos.x, (int)-pos.y };
+GE::Vector2i Physics::swapY(const GE::Vector2i &pos) {
+	return { (int)pos.y, (int)pos.x };
 }
 
 float Physics::calcDistanceBetweenTwoPoints(const GE::Vector2f &v1, const GE::Vector2f &v2) {

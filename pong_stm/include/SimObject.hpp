@@ -1,4 +1,5 @@
 #pragma once
+#include "ge.hpp"
 class SimObject {
 private:
 	virtual void sendSimObject();
@@ -9,7 +10,9 @@ protected:
 	void getSimTime();
 public:
 	SimObject();
-	virtual void simulation() = 0;
+	virtual void simulation(GE::Vector2i *pos) = 0;
+	virtual void setPos(GE::Vector2i pos) = 0;
+	virtual GE::Vector2i getPos() = 0;
 	virtual ~SimObject();
 };
 

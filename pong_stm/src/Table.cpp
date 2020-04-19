@@ -7,7 +7,7 @@ Table::Table(float pixelSizeX, float pixelSizeY, float angle, Physics::Material 
 	Rect(pixelSizeX, pixelSizeY, angle,  material, pixelPosX, pixelPosY)
 {
 	this->player = player;
-	Collision::getTableCollisionVector()._add(this);
+	//Collision::getTableCollisionVector()._add(this);
 	if (player == 1 || player == 2)
 	{
 		dObject->setColor(GE::Color::black);
@@ -16,5 +16,5 @@ Table::Table(float pixelSizeX, float pixelSizeY, float angle, Physics::Material 
 
 Table::~Table()
 {
-	Collision::getTableCollisionVector()._delete(this);
+	//Collision::getTableCollisionVector()._delete(this);
 }

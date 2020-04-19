@@ -5,7 +5,7 @@
 Racket::Racket(float posX, float posY,bool isAI, int whichPlayer) :
 	MovingObject(RACKET_DEFAULT_MASS), 
 	Rect(RACKET_DEFAULT_PIXEL_SIZE_X, RACKET_DEFAULT_PIXEL_SIZE_Y, 0.0f, Physics::Materials::racket, posX, posY){
-	Collision::getRacketCollisionVector()._add(this);
+	//Collision::getRacketCollisionVector()._add(this);
 	this->isAI = isAI;
 	this->whichPlayer = whichPlayer;
 	this->oldRealPos = this->realPos;	
@@ -34,7 +34,19 @@ void Racket::update() {
 		}
 }
 
-void Racket::simulation() {
+
+void Racket::setPos(GE::Vector2i pos)
+{
+	pos = (Physics::swapY({(float)pos.x,(float)pos.y}));
+	this->dObject->setPos(pos);
+}
+
+GE::Vector2i Racket::getPos()
+{
+	return dObject->getPos();
+}
+
+void Racket::simulation(GE::Vector2i* pos) {
 
 	
 	if (realPos != oldRealPos) {
@@ -47,20 +59,14 @@ void Racket::simulation() {
 	if (!isAI)
 	{
 		quickVelocityVector += calcVelocityVector(oldRealPos, realPos, simTime);
-        GE::Vector2i p = Physics::swapY(Physics::calcPixelVector({realPos.x,realPos.y}));
-		dObject->setPos(p);
-		oldRealPos = realPos;
-	}
-	else
-	{
-		quickVelocityVector += calcVelocityVector(oldRealPos, realPos, simTime);
+		*pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
 		oldRealPos = realPos;
 	}
 	
 }
 
 Racket::~Racket() {
-	Collision::getRacketCollisionVector()._delete(this);
+	//Collision::getRacketCollisionVector()._delete(this);
 }
 
 void Racket::test() {

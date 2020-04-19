@@ -20,6 +20,5 @@ template <typename T> DrawnObject<T>::~DrawnObject() {
 
 template class DrawnObject<GE::Circle>;
 template class DrawnObject<GE::Rect>;
-template class DrawnObject<GE::Rect>;
 template class DrawnObject<GE::Shape>;
 

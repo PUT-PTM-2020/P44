@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include "Racket.hpp"
@@ -20,8 +21,8 @@ private:
 	void ballTableCol(Ball *ball, Table *table);
 	void calcballRacketCol(Ball *ball, Racket *racket);
 	void calcballTableCol(Ball *ball, Table *table);
-	void p1Point(Ball *ball,Player *p);
-	void p2Point(Ball *ball,Player *p);
+	//void p1Point(Ball *ball,Player *p);
+	//void p2Point(Ball *ball,Player *p);
 	GE::Clock ck;
 	GE::Clock ck1;
 
@@ -36,3 +37,4 @@ public:
 	~Collision();
 };
 
+*/

@@ -16,9 +16,11 @@ private:
 	int whichPlayer;
 public:
 	Racket(float posX, float posY,bool isAI, int whichPlayer);
+	void setPos(GE::Vector2i pos);
+	GE::Vector2i getPos();
 	void rotation();
 	void update();
-	void simulation();
+	void simulation(GE::Vector2i* pos);
 	~Racket();
 	void test();
 };

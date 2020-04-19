@@ -2,7 +2,7 @@
 
 ObjectsVector<UpdateObject*> Game::updateVector;
 ObjectsVector<GE::Shape*> Game::drawVector;
-const int Game::simPerFrame = 15;
+const int Game::simPerFrame = 10;
 float Game::lastTime = 0.0f;
 float Game::timeForBall = 0.0f;
 float Game::elapsedTime = Game::getTime();
@@ -10,6 +10,14 @@ float Game::simTime = Game::elapsedTime / (float)Game::simPerFrame;
 bool Game::reset_ball = false;
 bool Game::buttonPress = false;
 Gameplay *Game::gameplay;
+HE::Clock Game::clock;
+HE::Clock Game::clock1;
+HE::Clock Game::frameClock;
+
+Game::Game()
+{
+	this->gameplay = new Gameplay();
+}
 
 ObjectsVector<UpdateObject*> &Game::getUpdateVector() {
 	return updateVector;
@@ -27,7 +35,7 @@ float Game::getSimTime() {
 	return simTime;
 }
 float Game::getTime() {
-	
+	return clock.getTime();
 }
 
 float Game::getElapsedTime() {
@@ -47,10 +55,17 @@ void Game::drawObjects() {
 
 }
 
+void Game::updateObjects() {
+	updateVector.forEach([](UpdateObject* &obj) {
+		obj->update();
+	});
+}
+
 void Game::calcTimes() {
-	elapsedTime = Game::getTime() - lastTime;
-	lastTime = Game::getTime();
-	simTime = elapsedTime / (float)simPerFrame;
+	//elapsedTime = Game::getTime() - lastTime;
+	//lastTime = Game::getTime();
+	//simTime = elapsedTime / (float)simPerFrame;
+	simTime = (1.0f/(60*simPerFrame));
 }
 
 void Game::manageEvents()//podrzucanie pileczki
@@ -63,8 +78,8 @@ void Game::run() {
 		manageEvents();
 		calcTimes();
 		updateObjects();
-		for (int i = 0; i < simPerFrame; i++) gameplay->simulate();
+		gameplay->simulate();
 		drawObjects();
-		//frameClock.restart();
+		frameClock.reset();
 
 }

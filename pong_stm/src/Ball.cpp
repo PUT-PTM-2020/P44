@@ -2,7 +2,7 @@
 #include "Game.hpp"
 
 Ball::Ball(float posX, float posY) : 
-	DrawnObject(new GE::Circle(BALL_DEFAULT_PIXEL_RADIUS,10,10)),
+	DrawnObject(new GE::Circle(BALL_DEFAULT_PIXEL_RADIUS,10,10,GE::Color::red)),
 	PhysicalObject(Physics::Materials::wood, posX, posY),
 	MovingObject(BALL_DEFAULT_MASS) {
 	this->pixelRaidus = BALL_DEFAULT_PIXEL_RADIUS;
@@ -10,9 +10,9 @@ Ball::Ball(float posX, float posY) :
 	this->drag = BALL_DEFAULT_DRAG;
 	this->dragK = (-0.5f * Physics::viscosity * 2.0f * PI * pow(this->realRaidus, 2) * this->drag) / this->mass;
 	this->acc = { 0.0f, 0.0f };
-
-	//this->dObject->setPosition(Physics::swapY({ posX, posY }));
-	isballmove = false;
+	GE::Vector2i q= (Physics::swapY({posX,posY}));
+	this->dObject->setPos(q);
+	isballmove = true;
 	p1Serv = 2; 
 	p2Serv = 0; 
 	p1 = false;
@@ -58,7 +58,19 @@ void Ball::update() {
 	
 }
 
-void Ball::simulation() {
+
+void Ball::setPos(GE::Vector2i pos)
+{
+	this->dObject->setPos(pos);
+}
+
+
+GE::Vector2i Ball::getPos()
+{
+	return dObject->getPos();
+}
+
+void Ball::simulation(GE::Vector2i *pos) {
 	acc = { 0.0f, 0.0f };
 		if (Game::reset_ball)
 		{
@@ -76,14 +88,11 @@ void Ball::simulation() {
 			oldRealPos = realPos;
 			realPos = calcNewRealPos(oldRealPos, velocityVector, acc, simTime);
 			velocityVector = calcVelocityVector(oldRealPos, realPos, simTime);
-			if (velocityVector.y > 3.0f) velocityVector.y = 3.0f;
-			if (velocityVector.x > 8.0f) velocityVector.x = 8.0f;
 			velocity = calcVelocityFromVelocityVector(velocityVector);
 			unitVector = calcUnitVector(velocityVector, velocity);
-            GE::Vector2i e = Physics::swapY(Physics::calcPixelVector(realPos));
-            dObject->setPos(e);
+            *pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
 		}
-		else
+		/*else
 		{
 			float pomoc = Game::getTimeForBall();
 				if (pomoc !=0)
@@ -97,7 +106,7 @@ void Ball::simulation() {
 					pomoc = 0;
 				}
 				
-		}
+		}*/
 }
 
 Ball::~Ball() {
