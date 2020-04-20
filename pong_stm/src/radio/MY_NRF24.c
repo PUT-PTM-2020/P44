@@ -649,16 +649,18 @@ bool NRF24_availablePipe(uint8_t* pipe_num)
 void NRF24_startWrite( const void* buf, uint8_t len )
 {
 	// Transmitter power-up
+  NRF24_ce(0);
   NRF24_write_register(REG_CONFIG, ( NRF24_read_register(REG_CONFIG) | _BV(BIT_PWR_UP) ) & ~_BV(BIT_PRIM_RX) );
+  NRF24_ce(1);
   NRF24_DelayMicroSeconds(150);
 
   // Send the payload
   NRF24_write_payload( buf, len );
 
   // Enable Tx for 15usec
-  NRF24_ce(1);
+  //NRF24_ce(1); //Poprawa?
   NRF24_DelayMicroSeconds(15);
-  NRF24_ce(0);
+  //NRF24_ce(0); //Poprawa?
 }
 //41. Write acknowledge payload
 void NRF24_writeAckPayload(uint8_t pipe, const void* buf, uint8_t len)
