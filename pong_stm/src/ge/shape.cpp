@@ -6,7 +6,7 @@ uint16_t GE::Shape::getPosX() { return this->newPos.x; }
 
 uint16_t GE::Shape::getPosY() { return this->newPos.y; }
 
-GE::Vector2i GE::Shape::getPos() { return this->newPos; }
+GE::Vector2i GE::Shape::getPos() { return {this->newPos.y,this->newPos.x}; }
 
 void GE::Shape::setPosX(uint16_t pX) { 
     this->oldPos.x = this->newPos.x;

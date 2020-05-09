@@ -2,7 +2,11 @@
 #include "UpdateObject.hpp"
 #include "SimObject.hpp"
 #include "DrawnObject.hpp"
+#include "Wall.hpp"
+#include "Racket.hpp"
+#include "Ball.hpp"
 #include "ge.hpp"
+#include "Table.hpp"
 
 
 template <typename T> ObjectsVector<T>::ObjectsVector() {
@@ -48,6 +52,10 @@ template <typename T> ObjectsVector<T>::~ObjectsVector() {
 	
 }
 
+template class ObjectsVector<Table*>;
+template class ObjectsVector<Racket*>;
+template class ObjectsVector<Ball*>;
+template class ObjectsVector<Wall*>;
 template class ObjectsVector<UpdateObject*>;
 template class ObjectsVector<SimObject*>;
 template class ObjectsVector<GE::Shape*>;

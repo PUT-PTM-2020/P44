@@ -15,6 +15,7 @@
 
 class Gameplay
 {
+    friend class Collision;
 private:
     Wall *wallL,*wallR,*wallD;
     Table *table1,*table2,*net;
@@ -25,7 +26,7 @@ public:
     static GE::Vector2i default_ballLPos, default_ballRPos, default_racketLPos, default_racketRPos;
 	static int player1Score, player2Score;
     static int mode;
-    //static Collision collision;
+    static Collision collision;
 	void simulateObjects();
 	void simulate();
     Gameplay();

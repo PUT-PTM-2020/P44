@@ -7,6 +7,7 @@
 #include "ObjectsVector.hpp"
 #include "Player.hpp"
 
+
 class Collision {
 private:
 	static ObjectsVector<Wall*> walls;
@@ -23,6 +24,13 @@ private:
 	void p1Point(Ball *ball,Player *p);
 	void p2Point(Ball *ball,Player *p);
 
+	bool col_for_wal = false;
+	int colision_counter = 0;
+
+	float hitTime = 0.016;
+	bool can_hit = true;
+
+
 
 public:
 	static int who; // Kto odbil 1-gracz pierwszy, 2- gracz drugi
@@ -31,6 +39,7 @@ public:
 	static ObjectsVector<Racket*> &getRacketCollisionVector();
 	static ObjectsVector<Ball*> &getBallCollisionVector();
 	static ObjectsVector<Table*> &getTableCollisionVector();
+	static bool was_col;
 	void checkCollisions();
 	~Collision();
 };
