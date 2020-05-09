@@ -5,7 +5,7 @@
 Racket::Racket(float posX, float posY,bool isAI, int whichPlayer) :
 	MovingObject(RACKET_DEFAULT_MASS), 
 	Rect(RACKET_DEFAULT_PIXEL_SIZE_X, RACKET_DEFAULT_PIXEL_SIZE_Y, 0.0f, Physics::Materials::racket, posX, posY,1){
-	//Collision::getRacketCollisionVector()._add(this);
+	Collision::getRacketCollisionVector()._add(this);
 	this->isAI = isAI;
 	this->whichPlayer = whichPlayer;
 	this->oldRealPos = this->realPos;	

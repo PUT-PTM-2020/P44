@@ -48,7 +48,7 @@ GE::Vector2i Physics::swapY(const GE::Vector2i &pos) {
 	return { (int)pos.y, (int)pos.x };
 }
 
-float Physics::calcDistanceBetweenTwoPoints(const GE::Vector2f &v1, const GE::Vector2f &v2) {
+float Physics::calcDistanceBetweenTwoPoints(const GE::Vector2i &v1, const GE::Vector2i &v2) {
 	return sqrt(pow(v2.x - v1.x, 2) + pow(v2.y - v1.y, 2));
 }
 

@@ -12,13 +12,14 @@ Ball::Ball(float posX, float posY) :
 	this->acc = { 0.0f, 0.0f };
 	GE::Vector2i q= (Physics::swapY({posX,posY}));
 	this->dObject->setPos(q);
+	Collision::getBallCollisionVector()._add(this);
 	isballmove = true;
 	p1Serv = 2; 
 	p2Serv = 0; 
 	p1 = false;
 	p2 = false;
 	pomoc = 0;
-	//Collision::getBallCollisionVector()._add(this);
+
 }
    
 void Ball::applyGravity() {
@@ -33,6 +34,7 @@ void Ball::applyWind()
 void Ball::applyAirResistance(const float &v, const GE::Vector2f &uV) {
 	if (v != 0.0f) {
 		acc += uV * dragK * (float)pow(v, 2);
+
 	}
 }
 
@@ -111,9 +113,5 @@ void Ball::simulation(GE::Vector2i *pos) {
 
 Ball::~Ball() {
 	//Collision::getBallCollisionVector()._delete(this);
-}
-
-void Ball::test() {
-	
 }
 

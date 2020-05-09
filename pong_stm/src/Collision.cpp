@@ -1,4 +1,4 @@
-/*
+
 #include "Collision.hpp"
 #include "Game.hpp"
 #include <cmath>
@@ -7,6 +7,8 @@ ObjectsVector<Wall*> Collision::walls;
 ObjectsVector<Racket*> Collision::rackets;
 ObjectsVector<Ball*> Collision::balls;
 ObjectsVector<Table*> Collision::tables;
+bool Collision::was_col = false;//0 nie bylo ani kolizji, 1- pierwsza kolizja, 2-kolejne kolizje nie brane pod uwage ale trzeba rysowac
+
 int Collision::who = 0;
 
 ObjectsVector<Table*> &Collision::getTableCollisionVector()
@@ -27,7 +29,7 @@ ObjectsVector<Ball*> &Collision::getBallCollisionVector() {
 }
 
 void Collision::checkCollisions() {
-	
+
 	//Balls and walls
 	balls.forEach([this](Ball *ball) {
 		walls.forEach([this, ball](Wall *wall) {
@@ -38,7 +40,7 @@ void Collision::checkCollisions() {
 	//Balls and rackets
 	balls.forEach([this](Ball *ball) {
 		rackets.forEach([this, ball](Racket *racket) {
-			ballRacketCol(ball, racket);
+			//ballRacketCol(ball, racket);
 		});
 	});
 
@@ -50,492 +52,94 @@ void Collision::checkCollisions() {
 	});
 }
 
-unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect) {
-	sf::Vector2f BP = ball->dObject->getPosition();
-	sf::Transform trans = rect->dObject->getTransform();
-	sf::Vector2f EP = trans * rect->localEP;
-	sf::Vector2f SP = trans * rect->localSP;
-
-	sf::Vector2f vSE = EP - SP;
-	sf::Vector2f vBS = BP - SP;
-
-	float lineLenghtPow = vSE.x * vSE.x + vSE.y * vSE.y;
-
-	float t = std::max(0.0f, std::min(lineLenghtPow, vSE.x * vBS.x + vSE.y * vBS.y)) / lineLenghtPow;
-
-	sf::Vector2f TP = SP + t * vSE;
-
-	float distance = Physics::calcDistanceBetweenTwoPoints(TP, BP);
-	
-
-	if (distance <= ball->pixelRaidus + rect->pixelRadius) {
-		if (t == 0 || t == 1) return 2;
-		return 1;
-		
-	} else {
-		return 0;
-	}
-}
-
-void Collision::ballWallCol(Ball *ball, Wall *wall) {
-	
-	unsigned short side = ballRectCheck(ball, wall);
-	if (side == 0) return;
-	else if(Gameplay::mode!=2)
-	{
-		
-	//Pilka nieodbita prez p2
-	if (ball->p2 && ball->Colision!=3)
-	{
-
-		p1Point(ball,p1);
-	
-	}
-
-	//Pilka nieodbita prez p1
-	else if (ball->p1 && ball->Colision != 3)
-	{
-		p2Point(ball,p2);
-	}
-
-	//serwis w ktoras ze scian p1
-	else if (ball->p1Serv == 1 && ball->Colision == 0)
-	{
-		p2Point(ball,p2);
-	}
-
-	//serwis w ktoras ze scian p2
-	else if (ball->p2Serv == 1 && ball->Colision == 0)
-	{
-		p1Point(ball,p1);
-	}
-
-	//Nieodpicie pilki przy serwisie przez p1
-	else if (ball->Colision == 3 && ball->p1Serv==2)
-	{
-		p2Point(ball,p2);
-
-	}
-
-	//Nieodpicie pilki przy serwisie przez p2
-	else if (ball->Colision == 3 && ball->p2Serv==2)
-	{
-		p1Point(ball,p1);
-	}
-
-	//Serw odbicie od 1 czesci a potem sciana p1
-	else if (ball->Colision == 1 && ball->p1==0 && ball->p1Serv==1)
-	{
-		p2Point(ball,p2);
-	}
-
-	//Serw odbicie od 1 czesci a potem sciana p2
-	else if (ball->Colision == 1 && ball->p2 == 0 && ball->p2Serv == 1)
-	{
-		p1Point(ball,p1);
-	}
-	else if (ball->Colision == 1 && ball->p2)
-	{
-		p1Point(ball, p1);
-	}
-	else if (ball->Colision == 1 && ball->p1)
-	{
-		p2Point(ball, p2);
-	}
-	else if (ball->Colision == 0 && who==2)
-	{
-		p1Point(ball, p1);
-	}
-	else if (ball->Colision == 0 && who==1)
-	{
-		p2Point(ball, p2);
-	}
-	}
-	else
+void Collision::ballWallCol(Ball *ball, Wall *wall)
+{
+	unsigned short res = ballRectCheck(ball,wall);
+	if(res == 1 && !col_for_wal)
 	{
 		if (wall->which_wall == 1 || wall->which_wall == 3)
 		{
 			ball->velocityVector.x = -ball->velocityVector.x;
+			col_for_wal = true;
 	    }
 		else if (wall->which_wall == 2)
 		{
-			ball->velocityVector.y = -ball->velocityVector.y;
-		}
-	}
-}
-
-void Collision::ballRacketCol(Ball *ball, Racket *racket) {
-	
-
-
-	unsigned short side = ballRectCheck(ball, racket);
-	if (side == 0) return;
-	else if(Gameplay::mode!=2)
-	{
-		if (ball->p1 &&ball->Colision==3  && racket->whichPlayer==1)
-		{
-			calcballRacketCol(ball, racket);
-			ball->p1Serv = 1;
-			ball->p2Serv = 0;
-			ball->Colision = 0;
-			ball->p1 = false;
-			ball->p2 = false;
-			who = 1;
-			ck.restart();
-		}
-		else if (!ball->p2 && who == 1 && ball->Colision == 0 && racket->whichPlayer==2)
-		{
-			
-			p1Point(ball, p1);
-		}
-
-		else if (ball->p2 && ball->Colision == 3 && racket->whichPlayer == 2)
-		{
-			calcballRacketCol(ball, racket);
-			ball->p1Serv = 0;
-			ball->p2Serv = 1;
-			ball->Colision = 0;
-			ball->p1 = false;
-			ball->p2 = false;
-			who = 2;
-			ck.restart();
-		}
-		else if (!ball->p1 && who == 2 && ball->Colision == 0 && racket->whichPlayer == 1)
-		{
-			p2Point(ball, p2);
-		}
-		else if (ball->p2 && ball->Colision!=0 && racket->whichPlayer == 2 && ck.getElapsedTime().asMilliseconds()>200)
-		{
-			ball->Colision = 0;
-			calcballRacketCol(ball, racket);
-			ball->p1 = false;
-			ball->p2 = false;
-			who = 2;
-		}
-		else if (!ball->p2 && ball->Colision != 0 && racket->whichPlayer == 2)
-		{
-			p1Point(ball, p1);
-		}
-
-
-		else if (ball->p1 && ball->Colision != 0 && racket->whichPlayer == 1 && ck.getElapsedTime().asMilliseconds() > 200)
-		{
-			ball->Colision = 0;
-			calcballRacketCol(ball, racket);
-			ball->p1 = false;
-			ball->p2 = false;
-			who = 1;
-
-		}
-		else if (!ball->p1 && ball->Colision!=0 && racket->whichPlayer == 1)
-		{
-			p2Point(ball, p2);
+			ball->velocityVector.y = -ball->velocityVector.y*0.95;
+			col_for_wal = true;
 		}
 	}
 	else
 	{
-		if (ck.getElapsedTime().asMilliseconds() > 200)
+		colision_counter++;
+		if(colision_counter > 8) 
 		{
-			calcballRacketCol(ball, racket);
-			ck.restart();
+			colision_counter = 0;
+			col_for_wal = false;
 		}
 	}
 	
-
-
+	return;
 }
 
 void Collision::ballTableCol(Ball *ball, Table *table)
 {
-	float time=0;
-	unsigned short side = ballRectCheck(ball, table);
-	if (side == 0) return;
-	else if (Gameplay::mode != 2)
+	unsigned short res = ballRectCheck(ball,table);
+	if(res == 1 && !was_col)
 	{
-	if (table->player != 3)
-	{
-
-		//Serw pierwsze odbicie p1
-		if (ball->p1Serv == 1 && ball->p1 == 0 && ball->Colision == 0 && table->player == 1)
-		{
-			ck.restart();
-			time = ball->simTime;
-			ball->Colision = 1;
-			calcballTableCol(ball, table);
-		}
-
-		//Serw pierwsze odbicie p2
-		else if (ball->p2Serv == 1 && ball->p2 == 0 && ball->Colision == 0 && table->player == 2)
-		{
-			ck.restart();
-			time = ball->simTime;
-			ball->Colision = 1;
-			calcballTableCol(ball, table);
-		}
-
-		//Nieprawidlowo wykonany serw p1 odrazu na 2 polowe
-		else if (ball->p1Serv == 1 && ball->p1 == 0 && ball->Colision == 0 && table->player == 2)
-		{
-			p2Point(ball, p2);
-		}
-
-		//Nieprawidlowo wykonany serw p2 odrazu na 2 polowe
-		else if (ball->p2Serv == 1 && ball->p2 == 0 && ball->Colision == 0 && table->player == 1)
-		{
-			p1Point(ball, p1);
-		}
-
-		//Nieprawidolwe podwojne odbicie p1 od tej samemj strony
-		else if (ball->p1Serv == 1 && ball->p1 == 0 && ball->Colision == 1 && ck.getElapsedTime().asMilliseconds() > 400 && table->player == 1)
-		{
-			p2Point(ball, p2);
-		}
-
-		//Nieprawidolwe podwojne odbicie p2 od tej samemj strony
-		else if (ball->p2Serv == 1 && ball->p2 == 0 && ball->Colision == 1 && ck.getElapsedTime().asMilliseconds() > 400 && table->player == 2)
-		{
-			p1Point(ball, p1);
-		}
-
-		//Drugie odbicie po serwie p1
-		else if (ball->p1Serv == 1 && ball->p1 == 0 && ball->Colision == 1 && table->player == 2)
-		{
-			ck.restart();
-			time = ball->simTime;
-			ball->p2 = true;
-			ball->p1Serv = 0;
-			ball->Colision = 2;
-			calcballTableCol(ball, table);
-
-		}
-
-		//Drugie odbicie po serwie p2
-		else if (ball->p2Serv == 1 && ball->p2 == 0 && ball->Colision == 1 && table->player == 1)
-		{
-			ck.restart();
-			time = ball->simTime;
-			ball->p1 = true;
-			ball->p2Serv = 0;
-			ball->Colision = 2;
-			calcballTableCol(ball, table);
-		}
-
-		//Nieodebrana pilka przez p1 
-		else if (ball->p1 && ball->Colision == 2 && table->player == 1 && ck.getElapsedTime().asMilliseconds() > 400)
-		{
-			p2Point(ball, p2);
-		}
-
-		//Nieodebrana pilka przez p2 
-		else if (ball->p2 && ball->Colision == 2 && table->player == 2 && ck.getElapsedTime().asMilliseconds() > 400)
-		{
-			p1Point(ball, p1);
-		}
-
-		//Odbicie w normlanej grze we wlasny stol przez p1
-		else if (who == 1 && ball->Colision == 0 && table->player == 1)
-		{
-			p2Point(ball, p2);
-		}
-
-		//Prawidlowe odbicie w nornalnej grze p1
-		else if (who == 1 && ball->Colision == 0 && table->player == 2)
-		{
-			calcballTableCol(ball, table);
-			ball->p2 = true;
-			ball->Colision = 1;
-		}
-
-		//Odbicie w normlanej grze we wlasny stol przez p2
-		else if (who == 2 && ball->Colision == 0 && table->player == 2)
-		{
-			p1Point(ball, p1);
-		}
-
-		//Prawidlowe odbicie w nornalnej grze p2
-		else if (who == 2 && ball->Colision == 0 && table->player == 1)
-		{
-			time = ball->simTime;
-			ck.restart();
-			calcballTableCol(ball, table);
-			ball->p1 = true;
-			ball->Colision = 1;
-		}
-		else if (ball->Colision == 1 && ck.getElapsedTime().asMilliseconds() > 400 && p1)
-		{
-			p2Point(ball, p2);
-		}
-		else if (ball->Colision == 1 && ck.getElapsedTime().asMilliseconds() > 400 && p2)
-		{
-			p1Point(ball, p1);
-		}
-
-
+		calcballTableCol(ball,table);
+		was_col = true;
 	}
 	else
 	{
-		if (ck1.getElapsedTime().asMilliseconds() > 100 && side == 1)
+		colision_counter++;
+		if(colision_counter > 8) 
 		{
-			ball->velocityVector.x = -ball->velocityVector.x * 0.4f;
-			ck1.restart();
-		}
-		if (ck1.getElapsedTime().asMilliseconds() > 100 && side == 2)
-		{
-			ball->velocityVector.y = -ball->velocityVector.y * 0.3f;
-			ck1.restart();
+			colision_counter = 0;
+			was_col = false;
 		}
 	}
-	}
-	else //Tryb wolny
-	{
-	if (table->player != 3)
-	{
-		if (ck1.getElapsedTime().asMilliseconds() > 100)
-		{
-			calcballTableCol(ball, table);
-			ck1.restart();
-		}
-	}
-	else
-	{
-		if (ck1.getElapsedTime().asMilliseconds() > 100 && side == 1)
-		{
-			ball->velocityVector.x = -ball->velocityVector.x * 0.4f;
-			ck1.restart();
-		}
-		if (ck1.getElapsedTime().asMilliseconds() > 100 && side == 2)
-		{
-			ball->velocityVector.y = -ball->velocityVector.y * 0.3f;
-			ck1.restart();
-		}
-	}
-
-	}
-
-}
-
-void Collision::p1Point(Ball *ball,Player *p)
-{
-	ball->dObject->setPosition(Gameplay::default_ballLPos);
-	ball->velocityVector = { 0.0f, 0.0f };
-	ball->realPos = { Physics::calcRealValue(ball->dObject->getPosition().x),
-	-Physics::calcRealValue(ball->dObject->getPosition().y) };
-	ball->isballmove = false;
-	ball->Colision = 0;
-	ball->p1Serv = 2;
-	ball->p2Serv = 0;
-	ball->p1 = false;
-	ball->p2 = true;
-	Game::timeForBall = 0;
-	Gameplay::player1Score++;
-	p->points++;
-	who = 0;
-
-}
-
-void Collision::p2Point(Ball *ball,Player *p)
-{
-	ball->dObject->setPosition(Gameplay::default_ballRPos);
-	ball->velocityVector = { 0.0f, 0.0f };
-	ball->realPos = { Physics::calcRealValue(ball->dObject->getPosition().x),
-	-Physics::calcRealValue(ball->dObject->getPosition().y) };
-	ball->isballmove = false;
-	ball->Colision = 0;
-	ball->p2Serv = 2;
-	ball->p1Serv = 0;
-	ball->p1 = true;
-	ball->p2 = false;
-	Game::timeForBall = 0;
-	Gameplay::player2Score++;
-	p->points++;
-	who = 0;
-	
 }
 
 
 void Collision::calcballTableCol(Ball *ball, Table *table)
 {
+	if(table->player == 3) ball->velocityVector.x = -ball->velocityVector.x;
+	else
+	{
 	float angle;
 	angle = atan2(ball->realPos.y, ball->realPos.x);
 	angle -= 1.57f;
 	ball->velocityVector = { 2 * ball->velocityVector.x * cos(angle),ball->velocityVector.y * sin(angle) };
-	Game::b.play();
+	}
 }
 
-
-void Collision::calcballRacketCol(Ball *ball, Racket *racket)
+unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect)
 {
-	sf::Transform trans = racket->dObject->getTransform();
-	sf::Vector2f SP = trans * racket->localSP;
-	sf::Vector2f EP = trans * racket->localEP;
-	float angle;
-	float tgalfa;
-	ball->isballmove = true;
+		GE::Vector2i BP = ball->dObject->getPos();
+		GE::Vector2i seg_v = rect->localEP - rect->localSP;
+		GE::Vector2i pt_v = BP - rect->localSP;
+		int rad_segv = sqrt(seg_v.x*seg_v.x + seg_v.y * seg_v.y);
+		GE::Vector2i unit_seg_v = {seg_v.x / rad_segv,seg_v.y / rad_segv};
+		int proj_len = pt_v.x * unit_seg_v.x + pt_v.y * unit_seg_v.y;
+		GE::Vector2i proj = {proj_len * unit_seg_v.x,proj_len * unit_seg_v.y};
+		GE::Vector2i closest;
+		if(proj_len > rad_segv) closest = rect->localEP;
+		else closest = rect->localSP + proj;
 
-	float a2;
-	if (ball->velocityVector.x == 0 && ball->velocityVector.y == 0)
-		a2 = 0;
-	else
-	{
-		sf::Vector2f oldBallPosPix = Physics::calcPixelVector(ball->oldRealPos);
-		sf::Vector2f BallPosPix = Physics::calcPixelVector(ball->realPos);
-		if (oldBallPosPix.x == BallPosPix.x || oldBallPosPix.y == BallPosPix.y)
+
+		std::vector<double> distance = {BP.x - closest.x,BP.y - closest.y};
+		int distance_len = sqrt(distance[0] * distance[0] + distance[1] * distance[1]);
+
+		int width = 0;
+		if(rect->dObject->getSizeX() > rect->dObject->getSizeY()) width = (rect->dObject->getSizeY()/2)+1;
+		else if(rect->dObject->getSizeX() < rect->dObject->getSizeY()) width = (rect->dObject->getSizeX()/2)+1;
+		if(distance_len <= ball->dObject->getRadius()+width)
 		{
-			a2 = 0;
+			return 1;
 		}
-		else
-			a2 = Physics::calcDirectionFactor(oldBallPosPix.x, oldBallPosPix.y, BallPosPix.x, BallPosPix.y);
-	}
-
-
-	if (SP.y == EP.y)
-	{
-		tgalfa = atan2(ball->dObject->getPosition().y, ball->dObject->getPosition().x);
-		tgalfa = 1.57079f- tgalfa;
-	}
-	else if (SP.x == EP.x)
-	{
-		tgalfa = atan2(ball->dObject->getPosition().y, ball->dObject->getPosition().x);
-	}
-	else
-	{
-		float a1 = Physics::calcDirectionFactor(SP.x, SP.y, EP.x, EP.y);
-		tgalfa = abs(((a2 - a1) / (1 + a1 * a2)));
-		tgalfa = atan(tgalfa);
-		tgalfa = 1.570796f - tgalfa;
-	}
-	angle = tgalfa;
-	if (angle > 1.4f) angle = 1.3f;
-	else if (angle < -1.4f) angle = -1.3f;
-	if (racket->velocityVector.x == 0 && racket->velocityVector.y == 0)
-	{
-		if (racket->angle>0 && racket->angle<90 && ball->p1)
-		{
-			ball->velocityVector = { -ball->velocity*cos(angle) , ball->velocity*sin(angle) };
-		}
-		else if (ball->p1)
-		{
-			ball->velocityVector = { ball->velocity*cos(angle) , ball->velocity*sin(angle) };
-		}
-		else if (racket->angle < 0 && racket->angle >-90  && ball->p2)
-		ball->velocityVector = { ball->velocity*cos(angle) , ball->velocity*sin(angle) };
-		else if(ball->p2)
-		ball->velocityVector = { -ball->velocity*cos(angle) , ball->velocity*sin(angle) };
-
-	}
-	else
-	{
-		
-		ball->velocityVector = { ((((racket->velocityVector.x - ball->velocityVector.x)*racket->mass*cos(angle)
-			+ (racket->velocityVector.x*racket->mass) + (ball->mass*ball->velocityVector.x)) / ((racket->mass + ball->mass)*cos(angle))) / 2.0f),
-			((((racket->velocityVector.y - ball->velocityVector.y)*racket->mass*sin(angle)
-			+ (racket->velocityVector.y*racket->mass) + (ball->mass*ball->velocityVector.y)) / ((racket->mass + ball->mass)*sin(angle))) / 2.0f)
-
-		};
-
-	}
-	Game::b.play();
+		return 0;
 }
+
 
 
 Collision::~Collision() {
@@ -546,5 +150,3 @@ Collision::~Collision() {
 }
 
 
-
-*/

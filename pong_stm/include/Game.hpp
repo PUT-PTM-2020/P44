@@ -3,7 +3,7 @@
 
 class Game{
 
-	static float lastTime;
+
 	static float elapsedTime;
 	static float simTime;
 	static HE::Clock  clock,clock1;
@@ -19,7 +19,7 @@ public:
 	static const int simPerFrame;
 	static bool reset_ball;
 	static bool buttonPress;
-
+	static float lastTime;
 	static Gameplay *gameplay;
 
 	static float getTime();

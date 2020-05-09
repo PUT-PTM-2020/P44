@@ -4,7 +4,7 @@
 
 #define PHYSICS_DEFAULT_VISCOSITY 1.225f
 #define PHYSICS_DEFAULT_GRAV 9.81f
-#define PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO 0.013f //Jeden piksel to 0,005 metra
+#define PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO 0.008f //Jeden piksel to 0,005 metra
 #define PI 3.14159265359f
 struct Physics {
 	static float viscosity, grav, wind;
@@ -28,5 +28,5 @@ struct Physics {
 	static float calcRealValue(const float &pixelValue);
 	static int calcPixelValue(const float &realValue);
 	static GE::Vector2i swapY(const GE::Vector2i &pos);
-	static float calcDistanceBetweenTwoPoints(const GE::Vector2f &vector1, const GE::Vector2f &vector2);
+	static float calcDistanceBetweenTwoPoints(const GE::Vector2i &vector1, const GE::Vector2i &vector2);
 };

@@ -61,6 +61,7 @@ float Game::getTimeForBall()
 void Game::drawObjects() {
 	for(auto i = drawVector.get().begin();i!= drawVector.get().end();i++)
 	{
+		if((*i)->getPos().y < 340)
 		(*i)->draw();
 	}
 
@@ -77,6 +78,7 @@ void Game::calcTimes() {
 	//lastTime = Game::getTime();
 	//simTime = elapsedTime / (float)simPerFrame;
 	simTime = (1.0f/(60*simPerFrame));
+	lastTime = (simTime*simPerFrame) + lastTime;
 }
 
 void Game::manageEvents()//podrzucanie pileczki
@@ -87,10 +89,10 @@ void Game::manageEvents()//podrzucanie pileczki
 void Game::run() {
 
 		manageEvents();
-		calcTimes();
-		updateObjects();
-		gameplay->simulate();
-		drawObjects();
+		calcTimes();//Funkcja obliczająca czas jaki upłynął między obecną klatką a poprzednią
+		updateObjects();//Funkcja updateujaca wartosci czasowe
+		gameplay->simulate();//Funkcja służąca do obliczania głównie nowego położenia obiektów poruszających się
+		drawObjects();//Funkcja rysująca obiekty znajdujące się w drawVector
 		frameClock.reset();
 
 }
