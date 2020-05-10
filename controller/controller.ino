@@ -9,8 +9,8 @@
 #define IRQ_PIN 2 //Fizyczny pin 4
 
 struct ResponseOneContr {
-  uint16_t accX;
-  uint16_t accY;
+  int16_t accX;
+  int16_t accY;
   bool startContr;
 };
 
@@ -20,33 +20,40 @@ MPU6050 mpu;
 Vector normAccel;
 
 RF24 radio(CE_PIN, CSN_PIN);
-const byte RXAddr[6] = {0xAA, 0x44, 0x33, 0x22, 0x11};
-const byte TXAddr[6] = {0xBB, 0x44, 0x33, 0x22, 0x11};
+const byte RXAddr1[6] = {0xAA, 0x44, 0x33, 0x22, 0x11};
+
+char readBuf[32];
 
 void respond() {
-  radio.stopListening();
-  response.startContr = false;
-  radio.write((char*)&response, 32);
-  radio.startListening();
+  if (radio.available()) {
+    radio.read(readBuf, 32);
+  }
 }
 
-
 void setup() {
+  Serial.begin(9600);
   mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G);
   radio.begin();
-  radio.setAutoAck(false);
+  radio.setAutoAck(true);
   radio.setChannel(52);
   radio.setPayloadSize(32);
   radio.setDataRate(RF24_1MBPS);
   radio.setPALevel(RF24_PA_MIN);
-  radio.openReadingPipe(0, RXAddr);
-  radio.openWritingPipe(TXAddr);
+  radio.enableAckPayload();
+  radio.openReadingPipe(1, RXAddr1);
   radio.startListening();
   attachInterrupt(IRQ_PIN, respond, FALLING);
+  
 }
 
 void loop() {
   normAccel = mpu.readNormalizeAccel();
   response.accX = (int)normAccel.XAxis;
   response.accY = (int)normAccel.ZAxis - 10;
+  radio.writeAckPayload(1, (char*)&response, 32);
+  Serial.print(" Xnorm = ");
+  Serial.print(response.accX);
+  Serial.print(" Ynorm = ");
+  Serial.println(response.accY);
+
 }
