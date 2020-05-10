@@ -2,7 +2,6 @@
 #include "ge/vector2.hpp"
 #include "he/clock.hpp"
 #include "spi.h"
-#include "usart.h"
 #include "main.h"
 extern "C" {
 #include "MY_NRF24.h"

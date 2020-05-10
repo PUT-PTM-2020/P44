@@ -1,7 +1,6 @@
 #include "pong.hpp"
 #include "ge.hpp"
 #include "he.hpp"
-#include <string>
 #include "Game.hpp"
 
 GE::Display* display;
