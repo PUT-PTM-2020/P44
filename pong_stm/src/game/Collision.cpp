@@ -110,6 +110,7 @@ void Collision::calcballTableCol(Ball *ball, Table *table)
 	angle = atan2(ball->realPos.y, ball->realPos.x);
 	angle -= 1.57f;
 	ball->velocityVector = { 2 * ball->velocityVector.x * cos(angle),ball->velocityVector.y * sin(angle) };
+	if(ball->velocityVector.y < 0.05) ball->isballmove = false;
 	}
 }
 
