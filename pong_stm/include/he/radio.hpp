@@ -13,7 +13,7 @@ private:
 
     const bool autoAck = true;
     const uint8_t channel = 52;
-    const rf24_datarate_e speed = RF24_250KBPS;
+    const rf24_datarate_e speed = RF24_1MBPS;
     const rf24_pa_dbm_e powerLevel = RF24_PA_0dB;
     const uint8_t payloadSize = 32;
     const uint8_t delayBetweenTries = 5;
@@ -27,7 +27,7 @@ private:
     struct ResponseOneContr {
         int16_t accX;
         int16_t accY;
-        bool startContr;
+        int16_t startContr;
         int16_t checksum;
     };
 

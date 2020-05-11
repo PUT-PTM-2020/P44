@@ -42,19 +42,22 @@ HE::Radio::Response HE::Radio::getContrInfo() {
     if (contrResponse1) {
         HE::Radio::ResponseOneContr r1;
         memcpy(&r1, this->readBuf[0], sizeof(HE::Radio::ResponseOneContr));
-        if ((r1.accX + r1.accY + (int16_t)r1.startContr) == r1.checksum) {
+        if ((r1.accX + r1.accY + r1.startContr) == r1.checksum) {
             r.accContr1 = {(float)r1.accX, (float)r1.accY};
             r.startContr1 = r1.startContr;
         }
+        
     }
 
     if (contrResponse2) {
         HE::Radio::ResponseOneContr r2;
         memcpy(&r2, this->readBuf[1], sizeof(HE::Radio::ResponseOneContr));
-        if ((r2.accX + r2.accY + (int16_t)r2.startContr) == r2.checksum) {
+        if ((r2.accX + r2.accY + r2.startContr) == r2.checksum) {
             r.accContr2 = {(float)r2.accX, (float)r2.accY};
             r.startContr2 = r2.startContr;
         }
+        r.accContr2 = {(float)r2.accX, (float)r2.accY};
+        r.startContr2 = r2.startContr;
     }
 
     return r;

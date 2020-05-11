@@ -12,7 +12,7 @@
 struct ResponseOneContr {
   int16_t accX;
   int16_t accY;
-  bool startContr;
+  int16_t startContr;
   int16_t checksum;
 };
 
@@ -34,13 +34,13 @@ void respond() {
 
 void setup() {
   pinMode(B1_PIN, INPUT_PULLUP);
-  Serial.begin(9600);
+  //Serial.begin(9600);
   mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G);
   radio.begin();
   radio.setAutoAck(true);
   radio.setChannel(52);
   radio.setPayloadSize(32);
-  radio.setDataRate(RF24_250KBPS);
+  radio.setDataRate(RF24_1MBPS);
   radio.setPALevel(RF24_PA_MIN);
   radio.enableAckPayload();
   radio.openReadingPipe(1, RXAddr1);
@@ -56,12 +56,12 @@ void loop() {
   if (digitalRead(B1_PIN) == LOW) response.startContr = true;
   else response.startContr = false;
 
-  response.checksum = response.accX + response.accY + (int16_t)response.startContr;
+  response.checksum = response.accX + response.accY + response.startContr;
   
   radio.writeAckPayload(1, (char*)&response, 32);
-  Serial.print(" Xnorm = ");
-  Serial.print(response.accX);
-  Serial.print(" Ynorm = ");
-  Serial.println(response.accY);
+  //Serial.print(" Xnorm = ");
+  //Serial.print(response.accX);
+  //Serial.print(" Ynorm = ");
+  //Serial.println(response.accY);
 
 }
