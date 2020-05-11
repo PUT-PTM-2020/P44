@@ -1,20 +1,28 @@
 #include "ge.hpp"
+#include "he.hpp"
 #include "Gameplay.hpp"
 
 class Game{
-
-
+private:
 	static float elapsedTime;
 	static float simTime;
-	static HE::Clock  clock,clock1;
-	static HE::Clock  frameClock;
+	static HE::Clock clock,clock1;
+	static HE::Clock frameClock;
 
 	static ObjectsVector<UpdateObject*> updateVector;
 	static ObjectsVector<GE::Shape*> drawVector,drawOnce;
-	static void calcTimes();
-public:
 
-	Game();
+	HE::Oled *oled;
+	HE::Radio *radio;
+	
+	void calcTimes();
+	void checkButtons();
+	void displayOled();
+	void checkRadio();
+	
+
+public:
+	Game(HE::Oled* oled, HE::Radio* radio);
 	static float timeForBall;
 	static const int simPerFrame;
 	static bool reset_ball;
@@ -27,6 +35,10 @@ public:
 	static float getElapsedTime();
 	static float getSimTime();
 	static float getTimeForBall();
+
+	static bool oledChange;
+
+	static HE::Radio::Response radioResponse;
 
 	void updateObjects();
 	void manageEvents();
