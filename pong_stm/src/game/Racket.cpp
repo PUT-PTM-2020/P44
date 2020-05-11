@@ -39,9 +39,16 @@ void Racket::simulation(GE::Vector2i* pos) {
 		if ((realPos.y - oldRealPos.y) > (RACKET_DEFAULT_MAX_VELOCITY * simTime)) realPos.y = oldRealPos.y + (RACKET_DEFAULT_MAX_VELOCITY * simTime);
 		if ((realPos.y - oldRealPos.y) < (-RACKET_DEFAULT_MAX_VELOCITY * simTime)) realPos.y = oldRealPos.y - (RACKET_DEFAULT_MAX_VELOCITY * simTime);
 	}
-		oldRealPos = realPos;
-		//quickVelocityVector = quickVelocityVector
-		//*pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
+		if(whichPlayer == 1)
+		{
+			quickVelocityVector += (Game::radioResponse.accContr1 * simTime);
+		}
+		else
+		{
+			quickVelocityVector += (Game::radioResponse.accContr2 * simTime);
+		}
+		realPos +=(quickVelocityVector * simTime);
+		*pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
 
 }
 
