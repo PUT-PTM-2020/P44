@@ -1,10 +1,7 @@
 #include "includes.hpp"
 #include "ge/vector2.hpp"
-#include "he/clock.hpp"
-#include "he/debug.hpp"
 #include "spi.h"
 #include "main.h"
-#include "usart.h"
 extern "C" {
 #include "MY_NRF24.h"
 }
@@ -17,20 +14,21 @@ private:
     const bool autoAck = true;
     const uint8_t channel = 52;
     const rf24_datarate_e speed = RF24_1MBPS;
+    const rf24_pa_dbm_e powerLevel = RF24_PA_0dB;
     const uint8_t payloadSize = 32;
+    const uint8_t delayBetweenTries = 5;
+    const uint8_t numOfTries = 3;
     const uint64_t TXAddr1 = 0x11223344AA;
     const uint64_t TXAddr2 = 0x11223344BB;
-    
-    const float waitTime = 0.003f;
+
     const char writeBuf[32] = "GIVE";
     char readBuf[2][32];
-
-    HE::Clock timer;
 
     struct ResponseOneContr {
         int16_t accX;
         int16_t accY;
-        bool startContr;
+        int16_t startContr;
+        int16_t checksum;
     };
 
 public:
@@ -44,7 +42,6 @@ public:
 
     Radio();
     Response getContrInfo();
-
 
 };
 
