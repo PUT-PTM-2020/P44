@@ -7,6 +7,7 @@ GE::Display* display;
 HE::Radio* radio;
 Game* game;
 HE::Oled* oled;
+GE::Rect* r;
 
 //Co się ma dziać przy uruchomieniu
 void setup() {
@@ -14,7 +15,7 @@ void setup() {
     radio = new HE::Radio();
     oled = new HE::Oled();
     game = new Game(oled, radio);
-    
+    r = new GE::Rect(20,20,30,20,GE::Color::red);
 
     //ssd1306_Init();
     
@@ -33,9 +34,8 @@ void gameLoop() {
     //sprintf(buf, "accX1: %d accY1: %d | accX2: %d accY2: %d", (int16_t)r.accContr1.x, (int16_t)r.accContr1.y, (int16_t)r.accContr2.x, (int16_t)r.accContr2.y);
     //HE::Debug::sendUART(buf);
     //******
-
     game->run();
-    
+
 }
 
 

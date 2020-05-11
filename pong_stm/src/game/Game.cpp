@@ -136,7 +136,8 @@ void Game::displayOled() {
 }
 
 void Game::checkRadio() {
-
+	Game::radioResponse.accContr1 =  {1.0f,1.0f};
+	Game::radioResponse.startContr1 = false;
 }
 
 void Game::manageEvents()//podrzucanie pileczki
