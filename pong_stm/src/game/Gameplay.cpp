@@ -17,6 +17,12 @@ ObjectsVector<SimObject*> &Gameplay::getSimVector() {
 
 
 Gameplay::Gameplay() {
+
+	this->default_ballLPos = { 200,360 };
+	this->default_ballRPos = { 1080,360 };
+	this->default_racketLPos = { 70,150 };
+	this->default_racketRPos = { 400,150 };
+
 	this->wallD = new Wall(479,3,0,Physics::Materials::wood,0,0,2);
 	this->wallL = new Wall(2,700,0,Physics::Materials::wood,0,0,1);
 	this->wallR = new Wall(2,700,0,Physics::Materials::wood,479,0,3);
@@ -24,12 +30,13 @@ Gameplay::Gameplay() {
 	this->table1 = new Table(150,10,0,Physics::Materials::wood,85,50,1);
 	this->table2 = new Table(150,10,0,Physics::Materials::wood,235,50,2);
 	this->net = new Table(6,25,0,Physics::Materials::wood,232,60,3);
+
+	this->racket1 = new Racket(default_racketLPos.x,default_racketLPos.y,0,1);
+	this->racket2 = new Racket(default_racketRPos.x,default_racketRPos.y,0,2);
+
 	this->ball = new Ball(150.0f, 70.0f);
 	this->ball->setVelocityVector({ 0.0f, 3.0f });
-	this->default_ballLPos = { 200,360 };
-	this->default_ballRPos = { 1080,360 };
-	this->default_racketLPos = { 150,360 };
-	this->default_racketRPos = { 1130,360 };
+
 	this->player1Score = 0;
 	this->player2Score = 0;
 }

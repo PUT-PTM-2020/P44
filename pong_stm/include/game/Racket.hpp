@@ -4,7 +4,7 @@
 
 #define RACKET_DEFAULT_MASS 0.160f
 #define RACKET_DEFAULT_PIXEL_SIZE_X 5.0f
-#define RACKET_DEFAULT_PIXEL_SIZE_Y 70.0f
+#define RACKET_DEFAULT_PIXEL_SIZE_Y 40.0f
 #define RACKET_DEFAULT_MAX_VELOCITY 15.0f
 
 class Racket : public MovingObject, public Rect {
@@ -18,10 +18,8 @@ public:
 	Racket(float posX, float posY,bool isAI, int whichPlayer);
 	void setPos(GE::Vector2i pos);
 	GE::Vector2i getPos();
-	void rotation();
 	void update();
 	void simulation(GE::Vector2i* pos);
 	~Racket();
-	void test();
 };
 

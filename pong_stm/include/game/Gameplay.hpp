@@ -19,8 +19,10 @@ class Gameplay
 private:
     Wall *wallL,*wallR,*wallD;
     Table *table1,*table2,*net;
-    static ObjectsVector<SimObject*> simVector;
+    Racket *racket1,*racket2;
     Ball *ball,*ball2;
+    static ObjectsVector<SimObject*> simVector;
+
 public:
 	static ObjectsVector<SimObject*>& getSimVector();
     static GE::Vector2i default_ballLPos, default_ballRPos, default_racketLPos, default_racketRPos;

@@ -15,9 +15,6 @@ void setup() {
     radio = new HE::Radio();
     game = new Game();
     
-
-    
-    
 }
 
 //Pętla wykonująca się 60 razy na sekundę

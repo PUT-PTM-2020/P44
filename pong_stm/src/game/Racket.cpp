@@ -8,30 +8,14 @@ Racket::Racket(float posX, float posY,bool isAI, int whichPlayer) :
 	Collision::getRacketCollisionVector()._add(this);
 	this->isAI = isAI;
 	this->whichPlayer = whichPlayer;
-	this->oldRealPos = this->realPos;	
+	this->oldRealPos = this->realPos;
+	this->dObject->setColor(GE::Color::white);	
 }
 
-/*void Racket::rotation() {
 
-		if (GE::Mouse::isButtonPressed(GE::Mouse::Left)) angle -= (150.5f / Game::getSimPerFrame()) * elapsedTime;
-		if (GE::Mouse::isButtonPressed(GE::Mouse::Right)) angle += (150.5f / Game::getSimPerFrame()) * elapsedTime;
-		if (GE::Mouse::isButtonPressed(GE::Mouse::Middle)) angle = 0.0f;
-		if (angle >= 180.0f) angle -= 180.0f;
-		if (angle <= -180.0f) angle += 180.0f;
-		dObject->setRotation(angle);
-}*/
 
 void Racket::update() {
-
 		getSimTime();
-		getElapsedTime();
-		velocityVector = quickVelocityVector / (float)Game::getSimPerFrame();
-		quickVelocityVector = { 0.0f, 0.0f };
-
-		velocity = calcVelocityFromVelocityVector(velocityVector);
-		if (velocity != 0.0f) {
-			unitVector = calcUnitVector(velocityVector, velocity);
-		}
 }
 
 
@@ -55,20 +39,13 @@ void Racket::simulation(GE::Vector2i* pos) {
 		if ((realPos.y - oldRealPos.y) > (RACKET_DEFAULT_MAX_VELOCITY * simTime)) realPos.y = oldRealPos.y + (RACKET_DEFAULT_MAX_VELOCITY * simTime);
 		if ((realPos.y - oldRealPos.y) < (-RACKET_DEFAULT_MAX_VELOCITY * simTime)) realPos.y = oldRealPos.y - (RACKET_DEFAULT_MAX_VELOCITY * simTime);
 	}
-
-	if (!isAI)
-	{
-		quickVelocityVector += calcVelocityVector(oldRealPos, realPos, simTime);
-		*pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
 		oldRealPos = realPos;
-	}
-	
+		//quickVelocityVector = quickVelocityVector
+		//*pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
+
 }
 
 Racket::~Racket() {
 	//Collision::getRacketCollisionVector()._delete(this);
 }
 
-void Racket::test() {
-	
-}
