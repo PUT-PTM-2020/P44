@@ -2,9 +2,9 @@
 
 GE::Rect::Rect(uint16_t sX, uint16_t sY, uint16_t pX, uint16_t pY, uint16_t c) : Shape(pX, pY, c), newSizeX(sX), newSizeY(sY), oldSizeX(sX), oldSizeY(sY) {}
 
-uint16_t GE::Rect::getSizeX() { return this->newSizeX; }
+uint16_t GE::Rect::getSizeX() { return this->newSizeY; }
 
-uint16_t GE::Rect::getSizeY() { return this->newSizeY; }
+uint16_t GE::Rect::getSizeY() { return this->newSizeX; }
 
 void GE::Rect::setSizeX(uint16_t sX) { 
     this->oldSizeX = this->newSizeX;

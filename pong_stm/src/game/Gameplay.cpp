@@ -34,8 +34,8 @@ Gameplay::Gameplay() {
 	this->racket1 = new Racket(default_racketLPos.x,default_racketLPos.y,0,1);
 	this->racket2 = new Racket(default_racketRPos.x,default_racketRPos.y,0,2);
 
-	this->ball = new Ball(150.0f, 70.0f);
-	this->ball->setVelocityVector({ 0.0f, 3.0f });
+	this->ball = new Ball(150.0f, 150.0f);
+	this->ball->setVelocityVector({ 0.0f, 1.0f });
 
 	this->player1Score = 0;
 	this->player2Score = 0;

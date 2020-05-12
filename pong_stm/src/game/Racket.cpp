@@ -21,6 +21,10 @@ void Racket::update() {
 void Racket::setPos(GE::Vector2i pos)
 {
 	this->dObject->setPos(pos);
+	pos = Physics::swapY(pos);
+	localSP = { (dObject->getSizeX() / 2) + pos.x, pos.y};
+	localEP = { (dObject->getSizeX() / 2) + pos.x, pos.y + dObject->getSizeY()};
+	
 }
 
 GE::Vector2i Racket::getPos()

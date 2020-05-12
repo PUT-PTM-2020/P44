@@ -13,10 +13,10 @@ Ball::Ball(float posX, float posY) :
 	GE::Vector2i q= (Physics::swapY({posX,posY}));
 	this->dObject->setPos(q);
 	Collision::getBallCollisionVector()._add(this);
-	isballmove = true;
+	isballmove = false;
 	p1Serv = 2; 
 	p2Serv = 0; 
-	p1 = false;
+	p1 = true;
 	p2 = false;
 	pomoc = 0;
 

@@ -40,7 +40,7 @@ void Collision::checkCollisions() {
 	//Balls and rackets
 	balls.forEach([this](Ball *ball) {
 		rackets.forEach([this, ball](Racket *racket) {
-			//ballRacketCol(ball, racket);
+			ballRacketCol(ball, racket);
 		});
 	});
 
@@ -100,7 +100,6 @@ void Collision::ballTableCol(Ball *ball, Table *table)
 	}
 }
 
-
 void Collision::calcballTableCol(Ball *ball, Table *table)
 {
 	if(table->player == 3) ball->velocityVector.x = -ball->velocityVector.x;
@@ -110,7 +109,25 @@ void Collision::calcballTableCol(Ball *ball, Table *table)
 	angle = atan2(ball->realPos.y, ball->realPos.x);
 	angle -= 1.57f;
 	ball->velocityVector = { 2 * ball->velocityVector.x * cos(angle),ball->velocityVector.y * sin(angle) };
+	if(ball->velocityVector.y < 0.05) ball->isballmove = false;
 	}
+}
+
+void Collision::ballRacketCol(Ball *ball,Racket *racket)
+{
+		unsigned short res = ballRectCheck(ball,racket);
+		if(res == 1) 
+		{
+			if (ball->p1 && racket->whichPlayer==1)
+			{
+				calcballRacketCol(ball, racket);
+				ball->Colision = 0;
+				ball->p1 = false;
+				ball->p2 = false;
+				who = 1;
+				ball->isballmove = true;
+			}
+		}
 }
 
 unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect)
@@ -141,6 +158,15 @@ unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect)
 }
 
 
+void Collision::calcballRacketCol(Ball *ball, Racket *racket)
+{
+ball->velocityVector.x = ((ball->mass - racket->mass)/(ball->mass + racket->mass))*ball->velocityVector.x + 
+						((2*racket->mass)/(ball->mass + racket->mass))*racket->quickVelocityVector.x;
+
+ball->velocityVector.y = ((ball->mass - racket->mass)/(ball->mass + racket->mass))*ball->velocityVector.y + 
+						((2*racket->mass)/(ball->mass + racket->mass))*racket->quickVelocityVector.y;
+
+}
 
 Collision::~Collision() {
 	walls.clear();
