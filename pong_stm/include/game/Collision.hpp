@@ -21,6 +21,7 @@ private:
 	void ballTableCol(Ball *ball, Table *table);
 	void calcballRacketCol(Ball *ball, Racket *racket);
 	void calcballTableCol(Ball *ball, Table *table);
+	Player *p1, *p2;
 	void p1Point(Ball *ball,Player *p);
 	void p2Point(Ball *ball,Player *p);
 
@@ -34,7 +35,6 @@ private:
 
 public:
 	static int who; // Kto odbil 1-gracz pierwszy, 2- gracz drugi
-	Player *p1, *p2;
 	static ObjectsVector<Wall*> &getWallCollisionVector();
 	static ObjectsVector<Racket*> &getRacketCollisionVector();
 	static ObjectsVector<Ball*> &getBallCollisionVector();
