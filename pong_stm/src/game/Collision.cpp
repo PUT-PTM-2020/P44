@@ -28,6 +28,7 @@ ObjectsVector<Ball*> &Collision::getBallCollisionVector() {
 	return balls;
 }
 
+//Iterowanie po obiektach w celu sprawdzenia czy wystąpiła kolizja między nimi a piłeczką
 void Collision::checkCollisions() {
 
 	//Balls and walls
@@ -57,16 +58,28 @@ void Collision::ballWallCol(Ball *ball, Wall *wall)
 	unsigned short res = ballRectCheck(ball,wall);
 	if(res == 1 && !col_for_wal)
 	{
-		if (wall->which_wall == 1 || wall->which_wall == 3)
-		{
-			ball->velocityVector.x = -ball->velocityVector.x;
-			col_for_wal = true;
-	    }
-		else if (wall->which_wall == 2)
-		{
-			ball->velocityVector.y = -ball->velocityVector.y*0.95;
-			col_for_wal = true;
-		}
+	//Pilka nieodbita prez p2
+
+
+	//Pilka nieodbita prez p1
+
+	//serwis w ktoras ze scian p1
+
+
+	//serwis w ktoras ze scian p2
+
+
+	//Nieodpicie pilki przy serwisie przez p1
+
+
+	//Nieodpicie pilki przy serwisie przez p2
+
+
+	//Serw odbicie od 1 czesci a potem sciana p1
+
+
+	//Serw odbicie od 1 czesci a potem sciana p2
+
 	}
 	else
 	{
@@ -84,10 +97,99 @@ void Collision::ballWallCol(Ball *ball, Wall *wall)
 void Collision::ballTableCol(Ball *ball, Table *table)
 {
 	unsigned short res = ballRectCheck(ball,table);
-	if(res == 1 && !was_col)
+	if(res == 1 && !was_col && table->player!=3)
 	{
-		calcballTableCol(ball,table);
 		was_col = true;
+		//Serw pierwsze odbicie p1
+		if(ball->p1Serv == 1 && ball->Colision == -1 && table->player == 1 && ball->p1 == 0)
+		{
+			calcballTableCol(ball,table);
+			was_col = true;
+			ball->Colision = 0;
+			return;
+		}
+		//Serw pierwsze odbicie p2
+		if(ball->p2Serv == 1 && ball->Colision == -1 && table->player == 2 && ball->p2 == 0)
+		{
+			calcballTableCol(ball,table);
+			was_col = true;
+			ball->Colision = 0;
+			return;
+		}
+
+		//Nieprawidlowo wykonany serw p1 odrazu na 2 polowe
+		if(ball->p1Serv == 1 && ball->Colision == -1 && table->player == 2 && ball->p1 == 0)
+		{
+			p2Point(ball,p2);
+			return;
+		}
+
+		//Nieprawidlowo wykonany serw p2 odrazu na 2 polowe
+		if(ball->p2Serv == 1 && ball->Colision == -1 && table->player == 1 && ball->p2 == 0)
+		{
+			p1Point(ball,p1);
+			return;
+		}
+
+		//Nieprawidolwe podwojne odbicie p1 od tej samemj strony przy serwie
+		if(ball->p1Serv == 1 && ball->Colision == 0 && table->player == 1 && ball->p1 == 0)
+		{
+			p2Point(ball,p2);
+			return;
+		}
+
+		//Nieprawidolwe podwojne odbicie p2 od tej samemj strony przy serwie
+		if(ball->p2Serv == 1 && ball->Colision == 0 && table->player == 2 && ball->p2 == 0)
+		{
+			p1Point(ball,p1);
+			return;
+		}
+
+		//Drugie odbicie po serwie p1
+		if(ball->p1Serv == 1 && ball->Colision == 0 && table->player == 2 && ball->p1 == 0)
+		{
+			calcballTableCol(ball,table);
+			was_col = true;
+			ball->Colision = 1;
+			return;
+		}
+
+		//Drugie odbicie po serwie p2
+		if(ball->p2Serv == 1 && ball->Colision == 0 && table->player == 1 && ball->p2 == 0)
+		{
+			calcballTableCol(ball,table);
+			was_col = true;
+			ball->Colision = 1;
+			return;
+		}
+
+		//Nieodebrana pilka przez p1 
+		if(ball->p1 && ball->Colision == 1 && table->player == 2)
+		{
+			p2Point(ball,p2);
+			return;
+		}
+
+		//Nieodebrana pilka przez p2 
+		if(ball->p2 && ball->Colision == 1 && table->player == 2)
+		{
+			p1Point(ball,p1);
+			return;
+		}
+
+		//Odbicie w normlanej grze we wlasny stol przez p1
+		if(ball->p1 == 0 && ball->Colision == 0 && table->player == 1)
+		{
+			p2Point(ball,p2);
+			return;
+		}
+
+		//Odbicie w normlanej grze we wlasny stol przez p2
+		if(ball->p2 == 0 && ball->Colision == 0 && table->player == 2)
+		{
+			p1Point(ball,p1);			
+			return;
+		}
 	}
 	else
 	{
@@ -97,6 +199,10 @@ void Collision::ballTableCol(Ball *ball, Table *table)
 			colision_counter = 0;
 			was_col = false;
 		}
+	}
+	if(table->player == 3 && res == 1)
+	{
+		ball->velocityVector.x = -ball->velocityVector.x;
 	}
 }
 
@@ -118,22 +224,63 @@ void Collision::ballRacketCol(Ball *ball,Racket *racket)
 		unsigned short res = ballRectCheck(ball,racket);
 		if(res == 1) 
 		{
-			if (ball->p1 && racket->whichPlayer==1)
+			//Odbicie prawidlowe w normlanej grze przez p1
+			if (ball->p1 && racket->whichPlayer==1 && ball->Colision == 1)
+			{
+				calcballRacketCol(ball, racket);
+				ball->isballmove = true;
+				ball->Colision = 0;
+				ball->p1 = false;
+				ball->p2 = false;
+				return;
+			}
+			//Odbicie prawidlowe w normlanej grze przez p2
+			if (ball->p2 && racket->whichPlayer==2 && ball->Colision == 1)
 			{
 				calcballRacketCol(ball, racket);
 				ball->Colision = 0;
 				ball->p1 = false;
 				ball->p2 = false;
-				who = 1;
+				return;
+			}
+			//Serw p1
+			if(ball->p1 && racket->whichPlayer==1 && ball->Colision == -1 && ball->p1Serv == 2)
+			{
+				calcballRacketCol(ball, racket);
 				ball->isballmove = true;
+				ball->p1 = false;
+				ball->p2 = true;
+				ball->p1Serv = 1;
+				return;
+			}
+			//Serw p2
+			if(ball->p2 && racket->whichPlayer==2 && ball->Colision == -1 && ball->p2Serv == 2)
+			{
+				calcballRacketCol(ball, racket);
+				ball->p2 = false;
+				ball->p1 = true;
+				ball->p2Serv = 1;
+				return;
+			}
+			//Nieprawidlowe odbicie przez p1
+			if(ball->p2 && racket->whichPlayer==1)
+			{
+				p2Point(ball,p2);
+				return;
+			}
+			//Nieprawidlowe odbicie przez p2
+			if(ball->p1 && racket->whichPlayer==2)
+			{
+				p1Point(ball,p1);
+				return;
 			}
 		}
 }
 
 unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect)
 {
-		GE::Vector2i BP = ball->dObject->getPos();
-		GE::Vector2i seg_v = rect->localEP - rect->localSP;
+		GE::Vector2i BP = ball->dObject->getPos(); //pobranie pozycji piłeczki
+		GE::Vector2i seg_v = rect->localEP - rect->localSP;//SP - start point , EP - end point. Punkty potrzbne do utworzenia wektora 
 		GE::Vector2i pt_v = BP - rect->localSP;
 		int rad_segv = sqrt(seg_v.x*seg_v.x + seg_v.y * seg_v.y);
 		GE::Vector2i unit_seg_v = {seg_v.x / rad_segv,seg_v.y / rad_segv};
@@ -166,6 +313,45 @@ ball->velocityVector.x = ((ball->mass - racket->mass)/(ball->mass + racket->mass
 ball->velocityVector.y = ((ball->mass - racket->mass)/(ball->mass + racket->mass))*ball->velocityVector.y + 
 						((2*racket->mass)/(ball->mass + racket->mass))*racket->quickVelocityVector.y;
 
+}
+
+
+void Collision::p1Point(Ball *ball,Player *p)
+{
+	ball->dObject->setPos(Gameplay::default_ballLPos);
+	ball->velocityVector = { 0.0f, 0.0f };
+	ball->realPos = Physics::calcRealVector(ball->getPos());
+	ball->isballmove = false;
+	ball->Colision = -1;
+	ball->p1Serv = 2;
+	ball->p2Serv = 0;
+	ball->p1 = false;
+	ball->p2 = true;
+	Game::timeForBall = 0;
+	Gameplay::player1Score++;
+	p->points++;
+	who = 0;
+
+}
+
+void Collision::p2Point(Ball *ball,Player *p)
+{
+	GE::Vector2i q = ball->dObject->getPos();
+	q= (Physics::swapY(Gameplay::default_ballRPos));
+	ball->dObject->setPos(q);
+	ball->velocityVector = { 0.0f, 0.0f };
+	ball->realPos = Physics::calcRealVector(ball->getPos());
+	ball->isballmove = false;
+	ball->Colision = -1;
+	ball->p2Serv = 2;
+	ball->p1Serv = 0;
+	ball->p1 = true;
+	ball->p2 = false;
+	Game::timeForBall = 0;
+	Gameplay::player2Score++;
+	p->points++;
+	who = 0;
+	
 }
 
 Collision::~Collision() {

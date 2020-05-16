@@ -136,7 +136,7 @@ void Game::displayOled() {
 }
 
 void Game::checkRadio() {
-	Game::radioResponse.accContr1 =  {1.0f,0.0f};
+	Game::radioResponse.accContr1 =  {0.8f,0.0f};
 	Game::radioResponse.startContr1 = false;
 }
 
