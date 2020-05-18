@@ -23,6 +23,10 @@ void GE::Shape::setPos(GE::Vector2i& p) {
     this->newPos = p; 
 }
 
+void GE::Shape::setNewPosOnly(Vector2i& p) {
+    this->newPos = p; 
+}
+
 void GE::Shape::move(uint16_t x, uint16_t y) {
     this->oldPos = this->newPos;
     this->newPos.x += x;

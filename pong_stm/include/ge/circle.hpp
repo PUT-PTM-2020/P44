@@ -6,6 +6,7 @@
 namespace GE
 {
 
+//Klasa okręgu, dziedziczy z Shape
 class Circle : public Shape {
 private:
     uint16_t newRadius;

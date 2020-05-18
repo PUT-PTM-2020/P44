@@ -9,6 +9,9 @@ void GE::Circle::setRadius(uint16_t r) {
     this->newRadius = r; 
 }
 
+//Implementacja mechanizmu starej i nowej pozycji 
+//Przed rysowaniem obiektu w nowej pozycji obiekt z starej pozycji jest usuwany (tzw. zostaje zastąpiony obiektem o kolorze tła)
+//Dzieje się to tylko wtedy kiedy obiekt był przmieszczony lub jego wielkość została zmieniona (stara wielkość też jest zapisywana)
 void GE::Circle::draw() {
     if (newPos != oldPos || newRadius != oldRadius) {
         BSP_LCD_SetTextColor(BSP_LCD_GetBackColor());

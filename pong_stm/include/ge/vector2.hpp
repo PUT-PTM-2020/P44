@@ -4,6 +4,7 @@
 namespace GE
 {
 
+//Klasa implementująca operacje matematyczne na wektorach, wektor może mieć wiele różnych typów (np. wektor int, wektor float)
 template <typename T> class Vector2 {
 public:
 
@@ -82,6 +83,7 @@ template <typename T> bool operator !=(const Vector2<T>& left, const Vector2<T>&
     return (left.x != right.x) || (left.y != right.y);
 }
 
+//Predefinicja dwóch typów - uint16_t i float
 typedef Vector2<uint16_t> Vector2i;
 typedef Vector2<float> Vector2f;
 

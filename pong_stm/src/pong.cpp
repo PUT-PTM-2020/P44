@@ -3,21 +3,19 @@
 #include "he.hpp"
 #include "Game.hpp"
 
-GE::Display* display;
+//Wskaźniki na obiekty muszą być utworzone w zasięgu gloablnym, aby takie były w main.cpp (od cube)
 HE::Radio* radio;
-Game* game;
 HE::Oled* oled;
-GE::Rect* r;
+GE::Display* display;
+Game* game;
 
 //Co się ma dziać przy uruchomieniu
 void setup() {
-    display = new GE::Display();
+    //Inicjalizacja obiektów
     radio = new HE::Radio();
     oled = new HE::Oled();
+    display = new GE::Display();
     game = new Game(oled, radio);
-    r = new GE::Rect(20,20,30,20,GE::Color::red);
-
-    //ssd1306_Init();
     
 }
 

@@ -16,10 +16,14 @@ void GE::Rect::setSizeY(uint16_t sY) {
     this->newSizeY = sY; 
 }
 
+//Implementacja mechanizmu starej i nowej pozycji 
+//Przed rysowaniem obiektu w nowej pozycji obiekt z starej pozycji jest usuwany (tzw. zostaje zastąpiony obiektem o kolorze tła)
+//Dzieje się to tylko wtedy kiedy obiekt był przmieszczony lub jego wielkość została zmieniona (stara wielkość też jest zapisywana)
 void GE::Rect::draw() {
+    if (newPos != oldPos || newSizeX != oldSizeX || newSizeY != oldSizeY) {
         BSP_LCD_SetTextColor(BSP_LCD_GetBackColor());
         BSP_LCD_FillRect(this->oldPos.x, this->oldPos.y, this->oldSizeX, this->oldSizeX);
-
+    }
     BSP_LCD_SetTextColor(this->color);
     BSP_LCD_FillRect(this->newPos.x, this->newPos.y, this->newSizeX, this->newSizeY);
 }

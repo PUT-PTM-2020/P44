@@ -5,6 +5,7 @@
 namespace GE 
 {
 
+//Klasa zarządzająca ekranem
 class Display {
 public:
     Display();
