@@ -291,7 +291,7 @@ unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect)
 		else closest = rect->localSP + proj;
 
 
-		std::vector<double> distance = {BP.x - closest.x,BP.y - closest.y};
+		std::vector<float> distance = {(float)BP.x - (float)closest.x,(float)BP.y - (float)closest.y};
 		int distance_len = sqrt(distance[0] * distance[0] + distance[1] * distance[1]);
 
 		int width = 0;
@@ -318,7 +318,9 @@ ball->velocityVector.y = ((ball->mass - racket->mass)/(ball->mass + racket->mass
 
 void Collision::p1Point(Ball *ball,Player *p)
 {
-	ball->dObject->setPos(Gameplay::default_ballLPos);
+	GE::Vector2i q = ball->dObject->getPos();
+	q= (Physics::swapY(Gameplay::default_ballRPos));
+	ball->dObject->setNewPosOnly(Gameplay::default_ballLPos);
 	ball->velocityVector = { 0.0f, 0.0f };
 	ball->realPos = Physics::calcRealVector(ball->getPos());
 	ball->isballmove = false;
@@ -338,7 +340,7 @@ void Collision::p2Point(Ball *ball,Player *p)
 {
 	GE::Vector2i q = ball->dObject->getPos();
 	q= (Physics::swapY(Gameplay::default_ballRPos));
-	ball->dObject->setPos(q);
+	ball->dObject->setNewPosOnly(q);
 	ball->velocityVector = { 0.0f, 0.0f };
 	ball->realPos = Physics::calcRealVector(ball->getPos());
 	ball->isballmove = false;

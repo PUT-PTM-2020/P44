@@ -4,8 +4,11 @@
 
 namespace HE {
 
+//Statycznka klasa obsługująca przyciski do zmiany parametrów fizycznych
+//Przyciski są podłączne w konfiguracji pull-up 
 class Buttons {
 public:
+    //Wykrywanie aktualnego naciskania danego przycisku
     static bool statusWindPlus();
     static bool statusWindMinus();
     static bool statusGravPlus();

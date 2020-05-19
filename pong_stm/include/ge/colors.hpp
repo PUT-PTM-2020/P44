@@ -3,6 +3,7 @@
 namespace GE 
 {
 
+//Klasa statyczna z predefinicjami niektórych kolorów
 class Color {
 public:
     static const uint16_t black = 0x0000;

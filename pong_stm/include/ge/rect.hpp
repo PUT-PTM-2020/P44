@@ -6,6 +6,7 @@
 namespace GE
 {
 
+//Klasa prostokątu, dziedziczy z Shape
 class Rect : public Shape {
 private:
     uint16_t newSizeX;
