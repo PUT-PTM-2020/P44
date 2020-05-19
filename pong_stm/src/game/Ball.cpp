@@ -14,6 +14,7 @@ Ball::Ball(float posX, float posY) :
 	this->dObject->setPos(q);
 	Collision::getBallCollisionVector()._add(this);
 	isballmove = false;
+	Colision = -1;
 	p1Serv = 2; 
 	p2Serv = 0; 
 	p1 = true;
@@ -74,16 +75,6 @@ GE::Vector2i Ball::getPos()
 
 void Ball::simulation(GE::Vector2i *pos) {
 	acc = { 0.0f, 0.0f };
-		if (Game::reset_ball)
-		{
-			isballmove = false;
-			velocityVector = { 0.0f,0.0f };
-			Game::timeForBall = 0;
-			dObject->setPos(Gameplay::default_ballLPos);
-			realPos = { Physics::calcRealValue(dObject->getPosX()),
-			-Physics::calcRealValue(dObject->getPosY())};
-			Game::reset_ball = false;
-		}
 		if (isballmove)
 		{
 			oldVelocityVector = velocityVector;
@@ -94,6 +85,7 @@ void Ball::simulation(GE::Vector2i *pos) {
 			unitVector = calcUnitVector(velocityVector, velocity);
             *pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
 		}
+		
 		/*else
 		{
 			float pomoc = Game::getTimeForBall();
