@@ -59,15 +59,27 @@ void Collision::ballWallCol(Ball *ball, Wall *wall)
 	if(res == 1 && !col_for_wal)
 	{
 	//Pilka nieodbita prez p2
-
+	if(p2 && ball->Colision == 1)
+	{
+		p1Point(ball,p1);
+	}
 
 	//Pilka nieodbita prez p1
-
+	if(p1 && ball->Colision == 1)
+	{
+		p2Point(ball,p2);
+	}
 	//serwis w ktoras ze scian p1
-
+	if(ball->p1Serv == 1 && ball->Colision == -1)
+	{
+		p2Point(ball,p2);
+	}
 
 	//serwis w ktoras ze scian p2
-
+	if(ball->p2Serv == 1 && ball->Colision == -1)
+	{
+		p1Point(ball,p1);
+	}
 
 	//Nieodpicie pilki przy serwisie przez p1
 

@@ -20,19 +20,19 @@ Gameplay::Gameplay() {
 
 	this->default_ballLPos = { 90,140 };
 	this->default_ballRPos = { 380,140 };
-	this->default_racketLPos = { 75,150 };
-	this->default_racketRPos = { 400,140 };
+	this->default_racketLPos = { 20,150 };
+	this->default_racketRPos = { 460,140 };
 
-	//this->wallD = new Wall(479,3,0,Physics::Materials::wood,0,0,2);
-	//this->wallL = new Wall(2,700,0,Physics::Materials::wood,0,0,1);
-	//this->wallR = new Wall(2,700,0,Physics::Materials::wood,479,0,3);
+	this->wallD = new Wall(479,3,0,Physics::Materials::wood,0,0,2);
+	this->wallL = new Wall(2,700,0,Physics::Materials::wood,0,0,1);
+	this->wallR = new Wall(2,700,0,Physics::Materials::wood,479,0,3);
 
 	this->table1 = new Table(150,10,0,Physics::Materials::wood,235,50,1);
 	this->table2 = new Table(150,10,0,Physics::Materials::wood,385,50,2);
 	this->net = new Table(6,25,0,Physics::Materials::wood,237,65,3);
 
 	this->racket1 = new Racket(default_racketLPos.x,default_racketLPos.y,0,1);
-	//this->racket2 = new Racket(default_racketRPos.x,default_racketRPos.y,0,2);
+	this->racket2 = new Racket(default_racketRPos.x,default_racketRPos.y,0,2);
 
 	this->ball = new Ball(90.0f, 120.0f);
 	this->ball->setVelocityVector({ 0.0f, 0.0f });
