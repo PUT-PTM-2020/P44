@@ -12,8 +12,14 @@ Table::Table(float pixelSizeX, float pixelSizeY, float angle, Physics::Material 
 		dObject->setColor(GE::Color::white);
 	}
 	else dObject->setColor(GE::Color::green);
-	Collision::getTableCollisionVector()._add(this);
 
+	localSP.x -= pixelSizeX;
+	localSP.y -= pixelSizeY;
+
+	localEP.x -= pixelSizeX;
+	localEP.y -= pixelSizeY;
+	
+	Collision::getTableCollisionVector()._add(this);
 }
 
 Table::~Table()

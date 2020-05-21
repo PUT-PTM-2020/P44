@@ -65,7 +65,6 @@ float Game::getTimeForBall()
 void Game::drawObjects() {
 	for(auto i = drawVector.get().begin();i!= drawVector.get().end();i++)
 	{
-		if((*i)->getPos().y < 340)
 		(*i)->draw();
 	}
 
@@ -136,7 +135,7 @@ void Game::displayOled() {
 }
 
 void Game::checkRadio() {
-	Game::radioResponse.accContr1 =  {0.8f,0.0f};
+	Game::radioResponse.accContr1 =  {1.5f,0.0f};
 	Game::radioResponse.startContr1 = false;
 }
 
