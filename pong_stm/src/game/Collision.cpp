@@ -59,15 +59,27 @@ void Collision::ballWallCol(Ball *ball, Wall *wall)
 	if(res == 1 && !col_for_wal)
 	{
 	//Pilka nieodbita prez p2
-
+	if(p2 && ball->Colision == 1)
+	{
+		p1Point(ball,p1);
+	}
 
 	//Pilka nieodbita prez p1
-
+	if(p1 && ball->Colision == 1)
+	{
+		p2Point(ball,p2);
+	}
 	//serwis w ktoras ze scian p1
-
+	if(ball->p1Serv == 1 && ball->Colision == -1)
+	{
+		p2Point(ball,p2);
+	}
 
 	//serwis w ktoras ze scian p2
-
+	if(ball->p2Serv == 1 && ball->Colision == -1)
+	{
+		p1Point(ball,p1);
+	}
 
 	//Nieodpicie pilki przy serwisie przez p1
 
@@ -263,13 +275,13 @@ void Collision::ballRacketCol(Ball *ball,Racket *racket)
 				return;
 			}
 			//Nieprawidlowe odbicie przez p1
-			if(ball->p2 && racket->whichPlayer==1)
+			if(ball->p2 && racket->whichPlayer==1 && ball->Colision > -1)
 			{
-				p2Point(ball,p2);
+				//p2Point(ball,p2);
 				return;
 			}
 			//Nieprawidlowe odbicie przez p2
-			if(ball->p1 && racket->whichPlayer==2)
+			if(ball->p1 && racket->whichPlayer==2 && ball->Colision > -1)
 			{
 				p1Point(ball,p1);
 				return;
@@ -279,23 +291,26 @@ void Collision::ballRacketCol(Ball *ball,Racket *racket)
 
 unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect)
 {
-		GE::Vector2i BP = ball->dObject->getPos(); //pobranie pozycji piłeczki
-		GE::Vector2i seg_v = rect->localEP - rect->localSP;//SP - start point , EP - end point. Punkty potrzbne do utworzenia wektora 
-		GE::Vector2i pt_v = BP - rect->localSP;
-		int rad_segv = sqrt(seg_v.x*seg_v.x + seg_v.y * seg_v.y);
-		GE::Vector2i unit_seg_v = {seg_v.x / rad_segv,seg_v.y / rad_segv};
-		int proj_len = pt_v.x * unit_seg_v.x + pt_v.y * unit_seg_v.y;
-		GE::Vector2i proj = {proj_len * unit_seg_v.x,proj_len * unit_seg_v.y};
-		GE::Vector2i closest;
-		if(proj_len > rad_segv) closest = rect->localEP;
-		else closest = rect->localSP + proj;
+		GE::Vector2f BP = {(float)ball->dObject->getPos().x,(float)ball->dObject->getPos().y}; //pobranie pozycji piłeczki
+		GE::Vector2f seg_v = {(float)rect->localEP.x - (float)rect->localSP.x,(float)rect->localEP.y - (float)rect->localSP.y};//SP - start point , EP - end point. Punkty potrzbne do utworzenia wektora 
+		GE::Vector2f SP = {(float)rect->localSP.x,(float)rect->localSP.y};
+
+		GE::Vector2f pt_v = BP - SP;
+		float rad_segv = sqrt(seg_v.x*seg_v.x + seg_v.y * seg_v.y);
+		GE::Vector2f unit_seg_v = {seg_v.x / rad_segv,seg_v.y / rad_segv};
+		float proj_len = pt_v.x * unit_seg_v.x + pt_v.y * unit_seg_v.y;
+		GE::Vector2f proj = {proj_len * unit_seg_v.x,proj_len * unit_seg_v.y};
+		GE::Vector2f closest;
+		if(proj_len < 0) closest = SP;
+		else if (proj_len > rad_segv) closest = {rect->localEP.x,rect->localEP.y};
+		else closest = {(float)rect->localSP.x + (float)proj.x,(float)rect->localSP.y + (float)proj.y};
 
 
 		std::vector<float> distance = {(float)BP.x - (float)closest.x,(float)BP.y - (float)closest.y};
-		int distance_len = sqrt(distance[0] * distance[0] + distance[1] * distance[1]);
-
-		int width = 0;
-		if(rect->dObject->getSizeX() > rect->dObject->getSizeY()) width = (rect->dObject->getSizeY()/2)+1;
+		float distance_len = sqrt(distance[0] * distance[0] + distance[1] * distance[1]);
+		int x = distance_len;
+		float width = 0;
+		if(rect->dObject->getSizeX() > rect->dObject->getSizeY()) width = (rect->dObject->getSizeY()/2)+3;
 		else if(rect->dObject->getSizeX() < rect->dObject->getSizeY()) width = (rect->dObject->getSizeX()/2)+1;
 		if(distance_len <= ball->dObject->getRadius()+width)
 		{
@@ -312,15 +327,15 @@ ball->velocityVector.x = ((ball->mass - racket->mass)/(ball->mass + racket->mass
 
 ball->velocityVector.y = ((ball->mass - racket->mass)/(ball->mass + racket->mass))*ball->velocityVector.y + 
 						((2*racket->mass)/(ball->mass + racket->mass))*racket->quickVelocityVector.y;
-
+ball->isballmove = true;
 }
 
 
 void Collision::p1Point(Ball *ball,Player *p)
 {
 	GE::Vector2i q = ball->dObject->getPos();
-	q= (Physics::swapY(Gameplay::default_ballRPos));
-	ball->dObject->setNewPosOnly(Gameplay::default_ballLPos);
+	q= (Physics::swapY(Gameplay::default_ballLPos));
+	ball->dObject->setNewPosOnly(q);
 	ball->velocityVector = { 0.0f, 0.0f };
 	ball->realPos = Physics::calcRealVector(ball->getPos());
 	ball->isballmove = false;

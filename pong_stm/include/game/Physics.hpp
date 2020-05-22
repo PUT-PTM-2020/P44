@@ -28,5 +28,6 @@ struct Physics {
 	static float calcRealValue(const float &pixelValue);
 	static int calcPixelValue(const float &realValue);
 	static GE::Vector2i swapY(const GE::Vector2i &pos);
+	static GE::Vector2i swapYR(const GE::Vector2i &pos);
 	static float calcDistanceBetweenTwoPoints(const GE::Vector2i &vector1, const GE::Vector2i &vector2);
 };
