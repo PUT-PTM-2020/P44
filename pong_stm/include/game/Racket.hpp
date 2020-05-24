@@ -14,8 +14,8 @@ private:
 	GE::Vector2f quickVelocityVector;
 	bool isAI;
 	int whichPlayer;
-	int accTrl1;
-	int accTrl2;
+	int accTrl1,accTrl2;
+	GE::Vector2f prev_acc;
 public:
 	Racket(float posX, float posY,bool isAI, int whichPlayer);
 	void setPos(GE::Vector2i pos);
