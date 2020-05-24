@@ -13,10 +13,10 @@
 
 //Struktura, która będzie wysyłana do STM
 struct ResponseOneContr {
-  int8_t accX;
-  int8_t accY;
-  int8_t startContr;
-  int8_t checksum;
+  int16_t accX;
+  int16_t accY;
+  int16_t startContr;
+  int16_t checksum;
 };
 
 //Zmienne globalne dla radia
@@ -81,14 +81,15 @@ void respond() {
 void setup() {
   Wire.begin();
   Serial.begin(9600);
-  pinMode(B1_PIN, INPUT_PULLUP);
-  pinMode(D1_PIN, OUTPUT);
-  digitalWrite(D1_PIN, LOW);
+  //pinMode(B1_PIN, INPUT_PULLUP);
+  //pinMode(D1_PIN, OUTPUT);
+  //digitalWrite(D1_PIN, LOW);
   mpuInit();
   radioInit();
   radio.read(readBuf, 32); //Oczyszczanie bufora poprzez read()
   attachInterrupt(IRQ_PIN, respond, FALLING);
-  digitalWrite(D1_PIN, HIGH); //Dioda się zapali po kalibracji MPU - można podnieść kontroler i zacząć grać
+  radio.read(readBuf, 32);
+  //digitalWrite(D1_PIN, HIGH); //Dioda się zapali po kalibracji MPU - można podnieść kontroler i zacząć grać
 }
 
 void loop() {
@@ -103,14 +104,14 @@ void loop() {
   mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
 
   //Normalizacja
-  float normalAccX = (float)aaWorld.y * (9.80665f / 8192.0f); 
-  float normalAccY = (float)aaWorld.z * (9.80665f / 8192.0f); 
+  //float normalAccX = (float)aaWorld.y * (9.80665f / 8192.0f); 
+  //float normalAccY = (float)aaWorld.z * (9.80665f / 8192.0f); 
 
   //Wypełnij bufer do wysłania do STM
-  response.accX = (int8_t)normalAccX;
-  response.accY = (int8_t)normalAccY;
-  if (digitalRead(B1_PIN) == LOW) response.startContr = true; //Sprawdź, czy naciskany jest przycisk
-  else response.startContr = false;
+  response.accX = (int16_t)aaWorld.y;
+  response.accY = (int16_t)aaWorld.z;
+  if (digitalRead(B1_PIN) == LOW) response.startContr = 1; //Sprawdź, czy naciskany jest przycisk
+  else response.startContr = 0;
   response.checksum = response.accX + response.accY + response.startContr;
 
   //Wyślij bufer jako odpowiedź (ACK) na przychodzący pakiet  

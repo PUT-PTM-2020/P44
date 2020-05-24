@@ -49,7 +49,7 @@ HE::Radio::Response HE::Radio::getContrInfo() {
         HE::Radio::ResponseOneContr r1;
         memcpy(&r1, this->readBuf[0], sizeof(HE::Radio::ResponseOneContr)); //Przekopiuj dane z bufora do miejsca w pamięci w którym znajduje się struktura r1
         if ((r1.accX + r1.accY + r1.startContr) == r1.checksum) { //Sprawdź sumę kontrolną, jeśli się zgadza - wpisz dane do zwracanej przez metodę struktury
-            r.accContr1 = {(float)r1.accX, (float)r1.accY};
+            r.accContr1 = {(float)r1.accX * (9.80665f / 4096.0f), (float)r1.accY * (9.80665f / 4096.0f)};
             r.startContr1 = (bool)r1.startContr;
         }
     }
@@ -59,7 +59,7 @@ HE::Radio::Response HE::Radio::getContrInfo() {
         HE::Radio::ResponseOneContr r2;
         memcpy(&r2, this->readBuf[1], sizeof(HE::Radio::ResponseOneContr)); //Przekopiuj dane z bufora do miejsca w pamięci w którym znajduje się struktura r2
         if ((r2.accX + r2.accY + r2.startContr) == r2.checksum) { //Sprawdź sumę kontrolną, jeśli się zgadza - wpisz dane do zwracanej przez metodę struktury
-            r.accContr2 = {(float)r2.accX, (float)r2.accY};
+            r.accContr2 = {(float)r2.accX * (9.80665f / 4096.0f), (float)r2.accY * (9.80665f / 4096.0f)};
             r.startContr2 = (bool)r2.startContr;
         }
     }

@@ -29,10 +29,10 @@ private:
 
     //Struktura znajdująca się w odpowiedzi od kontrolera
     struct ResponseOneContr {
-        int8_t accX;
-        int8_t accY;
-        int8_t startContr;
-        int8_t checksum;
+        int16_t accX;
+        int16_t accY;
+        int16_t startContr;
+        int16_t checksum;
     };
 
 public:

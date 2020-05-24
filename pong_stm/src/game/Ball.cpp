@@ -17,7 +17,7 @@ Ball::Ball(float posX, float posY) :
 	Colision = -1;
 	p1Serv = 2; 
 	p2Serv = 0; 
-	p1 = true;
+	p1 = false;
 	p2 = false;
 	pomoc = 0;
 
@@ -86,21 +86,24 @@ void Ball::simulation(GE::Vector2i *pos) {
             *pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
 		}
 		
-		/*else
+		else
 		{
-			float pomoc = Game::getTimeForBall();
-				if (pomoc !=0)
+				if (Game::radioResponse.startContr1 && p1Serv == 2)
 				{
-					isballmove = true;
-					velocityVector.y = 3.0f * pomoc;
-					if (velocityVector.y > 5) velocityVector.y = 5;
+					pomoc++;//Zliacznie mocy
+				}
+				else if(!Game::radioResponse.startContr1 && p1Serv == 2 )
+				{
+					pomoc = pomoc/300;//liczba sekund od wcisniecia do puszczenia przycisku
+					pomoc++;
+					if(pomoc > 6) pomoc = 6;
+					velocityVector = {0,pomoc};
 					p1 = !p1;
 					p2 = !p2;
-					Colision = 3;
 					pomoc = 0;
 				}
 				
-		}*/
+		}
 }
 
 Ball::~Ball() {

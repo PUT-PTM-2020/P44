@@ -9,6 +9,8 @@ Racket::Racket(float posX, float posY,bool isAI, int whichPlayer) :
 	this->isAI = isAI;
 	this->whichPlayer = whichPlayer;
 	this->oldRealPos = this->realPos;
+	this->accTrl1 = 0;
+	this->accTrl2 = 0;
 }
 
 
@@ -34,13 +36,6 @@ GE::Vector2i Racket::getPos()
 
 void Racket::simulation(GE::Vector2i* pos) {
 
-	
-	/*if (realPos != oldRealPos) {
-		if ((realPos.x - oldRealPos.x) > (RACKET_DEFAULT_MAX_VELOCITY * simTime)) realPos.x = oldRealPos.x + (RACKET_DEFAULT_MAX_VELOCITY * simTime);
-		if ((realPos.x - oldRealPos.x) < (-RACKET_DEFAULT_MAX_VELOCITY * simTime)) realPos.x = oldRealPos.x - (RACKET_DEFAULT_MAX_VELOCITY * simTime);
-		if ((realPos.y - oldRealPos.y) > (RACKET_DEFAULT_MAX_VELOCITY * simTime)) realPos.y = oldRealPos.y + (RACKET_DEFAULT_MAX_VELOCITY * simTime);
-		if ((realPos.y - oldRealPos.y) < (-RACKET_DEFAULT_MAX_VELOCITY * simTime)) realPos.y = oldRealPos.y - (RACKET_DEFAULT_MAX_VELOCITY * simTime);
-	}*/
 		if(whichPlayer == 1)
 		{
 			quickVelocityVector += (Game::radioResponse.accContr1 * simTime);
@@ -49,8 +44,33 @@ void Racket::simulation(GE::Vector2i* pos) {
 		{
 			quickVelocityVector += (Game::radioResponse.accContr2 * simTime);
 		}
+		if(Game::radioResponse.accContr1.x == 0)
+		{
+			accTrl1++;
+		}
+		else if(Game::radioResponse.accContr2.x == 0)
+		{
+			accTrl2++;
+		}
+		else 
+		{
+			accTrl2=0;
+			accTrl1=0;
+		}
+		if(accTrl2 == 250)
+		{
+			quickVelocityVector = {0,0};
+			accTrl2 = 0;
+		}
+		if(accTrl1 == 250)
+		{
+			quickVelocityVector = {0,0};
+			accTrl1=0;
+		}
 		realPos += (simTime * quickVelocityVector);
 		*pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
+
+
 
 }
 
