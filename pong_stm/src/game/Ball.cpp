@@ -85,7 +85,6 @@ void Ball::simulation(GE::Vector2i *pos) {
 			unitVector = calcUnitVector(velocityVector, velocity);
             *pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
 		}
-		
 		else
 		{
 				if (Game::radioResponse.startContr1 && p1Serv == 2)
@@ -94,9 +93,10 @@ void Ball::simulation(GE::Vector2i *pos) {
 				}
 				else if(!Game::radioResponse.startContr1 && p1Serv == 2 )
 				{
+					isballmove = true;
 					pomoc = pomoc/300;//liczba sekund od wcisniecia do puszczenia przycisku
 					pomoc++;
-					if(pomoc > 6) pomoc = 6;
+					if(pomoc > 7) pomoc = 7;
 					velocityVector = {0,pomoc};
 					p1 = !p1;
 					p2 = !p2;
