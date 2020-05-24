@@ -52,12 +52,15 @@ void radioInit() {
 //Inicjalizacja MPU
 void mpuInit() {
   mpu.initialize();
+  if (mpu.testConnection() != true) Serial.println("Blad polaczenia z MPU"); 
   if (mpu.dmpInitialize() == 0) {
+    Serial.println("Kalibracja");
     mpu.CalibrateAccel(6);
     mpu.CalibrateGyro(6);
     mpu.setDMPEnabled(true);
     packetSize = mpu.dmpGetFIFOPacketSize();
-  }
+    Serial.println("Kalibracja zakonczona");
+  } 
 }
 
 //Odczytanie wartości z MPU
@@ -76,11 +79,14 @@ void respond() {
 }
 
 void setup() {
+  Wire.begin();
+  Serial.begin(9600);
   pinMode(B1_PIN, INPUT_PULLUP);
   pinMode(D1_PIN, OUTPUT);
   digitalWrite(D1_PIN, LOW);
-  radioInit();
   mpuInit();
+  radioInit();
+  radio.read(readBuf, 32); //Oczyszczanie bufora poprzez read()
   attachInterrupt(IRQ_PIN, respond, FALLING);
   digitalWrite(D1_PIN, HIGH); //Dioda się zapali po kalibracji MPU - można podnieść kontroler i zacząć grać
 }

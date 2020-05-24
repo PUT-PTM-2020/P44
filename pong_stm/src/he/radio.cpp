@@ -1,4 +1,5 @@
 #include "he/radio.hpp"
+#include "he/debug.hpp"
 
 //Inicjalizacja radia w konstruktorze, ustawianie parametrów
 HE::Radio::Radio() {
@@ -21,7 +22,6 @@ HE::Radio::Response HE::Radio::getContrInfo() {
     r.accContr2 = {0.0f, 0.0f};
     r.startContr1 = false;
     r.startContr2 = false;
-
     //Wyślij zapytanie do kontrolera 1
     bool contrResponse1 = false;
     NRF24_stopListening();

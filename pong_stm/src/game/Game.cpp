@@ -135,8 +135,10 @@ void Game::displayOled() {
 }
 
 void Game::checkRadio() {
-	Game::radioResponse.accContr1 =  {1.5f,0.0f};
-	Game::radioResponse.startContr1 = false;
+	Game::radioResponse = this->radio->getContrInfo();
+	//char buf[100];
+    //sprintf(buf, "accX1: %d accY1: %d | accX2: %d accY2: %d", (int16_t)Game::radioResponse.accContr1.x, (int16_t)Game::radioResponse.accContr1.y, (int16_t)Game::radioResponse.accContr2.x, (int16_t)Game::radioResponse.accContr2.y);
+    //HE::Debug::sendUART(buf);
 }
 
 void Game::manageEvents()//podrzucanie pileczki
