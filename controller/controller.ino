@@ -19,6 +19,9 @@ struct ResponseOneContr {
   int16_t checksum;
 };
 
+int32_t accXSum, accYSum;
+uint16_t counter; 
+
 //Zmienne globalne dla radia
 ResponseOneContr response;
 RF24 radio(CE_PIN, CSN_PIN);
@@ -43,7 +46,7 @@ void radioInit() {
   radio.setChannel(52);
   radio.setPayloadSize(32);
   radio.setDataRate(RF24_1MBPS);
-  radio.setPALevel(RF24_PA_MIN);
+  radio.setPALevel(RF24_PA_MAX);
   radio.enableAckPayload(); //Odpowiedź kontrolera (z danymi) będzie zwracana jako ACK
   radio.openReadingPipe(1, RXAddr1);
   radio.startListening();
@@ -75,21 +78,26 @@ void mpuRead() {
 void respond() {
   if (radio.available()) {
     radio.read(readBuf, 32); //Oczyszczanie bufora poprzez read() (chodź nic w praktyce nie czytamy, trzeba czyścić bufor)
+    accXSum = 0;
+    accYSum = 0;
+    counter = 0;
   }
 }
 
 void setup() {
   Wire.begin();
   Serial.begin(9600);
-  //pinMode(B1_PIN, INPUT_PULLUP);
-  //pinMode(D1_PIN, OUTPUT);
-  //digitalWrite(D1_PIN, LOW);
+  pinMode(B1_PIN, INPUT_PULLUP);
+  pinMode(D1_PIN, OUTPUT);
+  digitalWrite(D1_PIN, LOW);
   mpuInit();
   radioInit();
-  radio.read(readBuf, 32); //Oczyszczanie bufora poprzez read()
   attachInterrupt(IRQ_PIN, respond, FALLING);
-  radio.read(readBuf, 32);
-  //digitalWrite(D1_PIN, HIGH); //Dioda się zapali po kalibracji MPU - można podnieść kontroler i zacząć grać
+  radio.read(readBuf, 32); //Oczyszczanie bufora poprzez read()
+  accXSum = 0;
+  accYSum = 0;
+  counter = 0;
+  digitalWrite(D1_PIN, HIGH); //Dioda się zapali po kalibracji MPU - można podnieść kontroler i zacząć grać
 }
 
 void loop() {
@@ -103,13 +111,13 @@ void loop() {
   mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
   mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
 
-  //Normalizacja
-  //float normalAccX = (float)aaWorld.y * (9.80665f / 8192.0f); 
-  //float normalAccY = (float)aaWorld.z * (9.80665f / 8192.0f); 
+  accXSum += (int16_t)aaWorld.y;
+  accYSum += (int16_t)aaWorld.z;
+  counter++;
 
   //Wypełnij bufer do wysłania do STM
-  response.accX = (int16_t)aaWorld.y;
-  response.accY = (int16_t)aaWorld.z;
+  response.accX = accXSum / counter;
+  response.accY = accYSum / counter;
   if (digitalRead(B1_PIN) == LOW) response.startContr = 1; //Sprawdź, czy naciskany jest przycisk
   else response.startContr = 0;
   response.checksum = response.accX + response.accY + response.startContr;

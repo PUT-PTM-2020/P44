@@ -238,7 +238,7 @@ void NRF24_begin(GPIO_TypeDef *nrf24PORT, uint16_t nrfCSN_Pin, uint16_t nrfCE_Pi
 	NRF24_flush_tx();
 	NRF24_flush_rx();
 	
-	NRF24_powerDown();
+	NRF24_powerUp();
 	
 }
 //13. Listen on open pipes for reading (Must call NRF24_openReadingPipe() first)

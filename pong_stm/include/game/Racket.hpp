@@ -16,9 +16,12 @@ private:
 	int whichPlayer;
 	int accTrl1,accTrl2;
 	GE::Vector2f prev_acc;
+	bool checkAcc1, checkAcc2;
+	bool giveVec;
 public:
 	Racket(float posX, float posY,bool isAI, int whichPlayer);
 	void setPos(GE::Vector2i pos);
+
 	GE::Vector2i getPos();
 	void update();
 	void simulation(GE::Vector2i* pos);

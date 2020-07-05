@@ -91,13 +91,13 @@ void Ball::simulation(GE::Vector2i *pos) {
 				{
 					pomoc++;//Zliacznie mocy
 				}
-				else if(!Game::radioResponse.startContr1 && p1Serv == 2 )
+				else if(!Game::radioResponse.startContr1 && p1Serv == 2 && pomoc > 0)
 				{
 					isballmove = true;
-					pomoc = pomoc/300;//liczba sekund od wcisniecia do puszczenia przycisku
+					pomoc = pomoc/100;//liczba sekund od wcisniecia do puszczenia przycisku
 					pomoc++;
-					if(pomoc > 7) pomoc = 7;
-					velocityVector = {0,pomoc};
+					if(pomoc > 30) pomoc = 30;
+					velocityVector = {0,5.0f};
 					p1 = !p1;
 					p2 = !p2;
 					pomoc = 0;

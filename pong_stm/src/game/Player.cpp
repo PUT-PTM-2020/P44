@@ -5,7 +5,7 @@
 bool Player::TPMousePlayer1 = false;
 bool Player::TPMousePlayer2 = false;
 
-Player::Player(int mode, Racket* racket, Table* table,Ball* ball, int playerNumber) {
+Player::Player(int mode, Racket* racket, Table* table, Ball* ball, int playerNumber) {
 	this->mode = mode;
 	this->racket = racket;
 	this->table = table;
