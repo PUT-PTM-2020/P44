@@ -11,10 +11,18 @@ HE::Radio::Radio() {
     NRF24_setPALevel(this->powerLevel);
     NRF24_setRetries(this->delayBetweenTries, this->numOfTries);
     NRF24_enableAckPayload();
+
+    //Wyczyść bufory radia
+    NRF24_flush_rx(); 
+    NRF24_flush_tx();
 }
 
 //Wyślij prośbę o dane do kontrolerów i zwróć odpowiedź
 HE::Radio::Response HE::Radio::getContrInfo() {
+
+    //Wyczyść bufory radia
+    NRF24_flush_rx();
+    NRF24_flush_tx();
     
     //Zmienne startowe, ustaw domyślne odpowiedzi kontrolerów na 0
     HE::Radio::Response r;

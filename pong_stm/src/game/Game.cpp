@@ -3,7 +3,7 @@
 ObjectsVector<UpdateObject*> Game::updateVector;
 ObjectsVector<GE::Shape*> Game::drawVector;
 ObjectsVector<GE::Shape*> Game::drawOnce;
-const int Game::simPerFrame = 10;
+const int Game::simPerFrame = 1;
 float Game::lastTime = 0.0f;
 float Game::timeForBall = 0.0f;
 float Game::elapsedTime = Game::getTime();
