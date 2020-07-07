@@ -36,6 +36,10 @@ VectorInt16 aaReal;
 VectorInt16 aaWorld;
 VectorFloat gravity;
 
+uint16_t counter;
+float normalAccXSum;
+float normalAccYSum;
+
 //Inicjalizacja radia
 void radioInit() {
   radio.begin();
@@ -75,6 +79,9 @@ void mpuRead() {
 void respond() {
   if (radio.available()) {
     radio.read(readBuf, 32); //Oczyszczanie bufora poprzez read() (chodź nic w praktyce nie czytamy, trzeba czyścić bufor)
+    counter = 0;
+    normalAccXSum = 0.0f;
+    normalAccYSum = 0.0f;
   }
 }
 
@@ -89,6 +96,10 @@ void setup() {
   radio.read(readBuf, 32); //Oczyszczanie bufora poprzez read()
   attachInterrupt(IRQ_PIN, respond, FALLING);
   digitalWrite(D1_PIN, HIGH); //Dioda się zapali po kalibracji MPU - można podnieść kontroler i zacząć grać
+
+  counter = 0;
+  normalAccXSum = 0;
+  normalAccYSum = 0;
 }
 
 void loop() {
@@ -106,9 +117,15 @@ void loop() {
   float normalAccX = (float)aaWorld.y * (9.80665f / 8192.0f); 
   float normalAccY = (float)aaWorld.z * (9.80665f / 8192.0f); 
 
+  //Sumowanie wartości pomiędzy przerwaniami od radia
+  counter++;
+  normalAccXSum += normalAccX;
+  normalAccYSum += normalAccY;
+
   //Wypełnij bufer do wysłania do STM
-  response.accX = (int8_t)normalAccX;
-  response.accY = (int8_t)normalAccY;
+  response.accX = (int8_t)(normalAccXSum / (float)counter * 2.0f);
+  response.accY = (int8_t)(normalAccYSum / (float)counter * 2.0f);
+  
   if (digitalRead(B1_PIN) == LOW) response.startContr = true; //Sprawdź, czy naciskany jest przycisk
   else response.startContr = false;
   response.checksum = response.accX + response.accY + response.startContr;
