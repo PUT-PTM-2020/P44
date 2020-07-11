@@ -90,6 +90,7 @@ void setup() {
   pinMode(B1_PIN, INPUT_PULLUP);
   pinMode(D1_PIN, OUTPUT);
   digitalWrite(D1_PIN, LOW);
+  delay(1000);
   mpuInit();
   radioInit();
   attachInterrupt(IRQ_PIN, respond, FALLING);
@@ -116,8 +117,8 @@ void loop() {
   counter++;
 
   //Wypełnij bufer do wysłania do STM
-  response.accX = accXSum / counter;
-  response.accY = accYSum / counter;
+  response.accX = (accXSum * 2) / counter;
+  response.accY = (accYSum * 2) / counter;
   if (digitalRead(B1_PIN) == LOW) response.startContr = 1; //Sprawdź, czy naciskany jest przycisk
   else response.startContr = 0;
   response.checksum = response.accX + response.accY + response.startContr;

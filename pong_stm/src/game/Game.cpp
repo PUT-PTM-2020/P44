@@ -156,5 +156,5 @@ void Game::run() {
 		gameplay->simulate();//Funkcja służąca do obliczania głównie nowego położenia obiektów poruszających się
 		drawObjects();//Funkcja rysująca obiekty znajdujące się w drawVector
 		frameClock.reset();
-
+		
 }

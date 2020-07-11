@@ -30,6 +30,7 @@ HE::Radio::Response HE::Radio::getContrInfo() {
     r.accContr2 = {0.0f, 0.0f};
     r.startContr1 = false;
     r.startContr2 = false;
+
     //Wyślij zapytanie do kontrolera 1
     bool contrResponse1 = false;
     NRF24_stopListening();
@@ -40,7 +41,7 @@ HE::Radio::Response HE::Radio::getContrInfo() {
             contrResponse1 = true;
         }
     }
-
+    
     //Wyślij zapytanie do kontrolera 2
     bool contrResponse2 = false;
     NRF24_stopListening();
@@ -69,6 +70,8 @@ HE::Radio::Response HE::Radio::getContrInfo() {
         if ((r2.accX + r2.accY + r2.startContr) == r2.checksum) { //Sprawdź sumę kontrolną, jeśli się zgadza - wpisz dane do zwracanej przez metodę struktury
             r.accContr2 = {(float)r2.accX * (9.80665f / 4096.0f), (float)r2.accY * (9.80665f / 4096.0f)};
             r.startContr2 = (bool)r2.startContr;
+
+            if (r.startContr2 == true) HE::Debug::sendUART("JEST");
         }
     }
 

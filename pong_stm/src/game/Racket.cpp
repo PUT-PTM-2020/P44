@@ -111,13 +111,13 @@ else
 		checkAcc2 = 1;
 	}
 
-	if(abs(Game::radioResponse.accContr2.x - prev_acc.x) > 3.0f && checkAcc2)
+	if(abs(Game::radioResponse.accContr2.x - prev_acc.x) > 20.0f && checkAcc2)
 	{
 		Game::radioResponse.accContr2 = {0.0f,Game::radioResponse.accContr2.y};
 		quickVelocityVector = {0.0f,quickVelocityVector.y};
 	}
 
-	if(abs(Game::radioResponse.accContr2.y - prev_acc.y) > 3.0f&& checkAcc2)
+	if(abs(Game::radioResponse.accContr2.y - prev_acc.y) > 20.0f && checkAcc2)
 	{
 		Game::radioResponse.accContr2 = {Game::radioResponse.accContr2.x,0.0f};
 		quickVelocityVector = {quickVelocityVector.x,0.0f};
