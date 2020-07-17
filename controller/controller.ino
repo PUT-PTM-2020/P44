@@ -25,7 +25,10 @@ uint16_t counter;
 //Zmienne globalne dla radia
 ResponseOneContr response;
 RF24 radio(CE_PIN, CSN_PIN);
-const byte RXAddr1[6] = {0xAA, 0x44, 0x33, 0x22, 0x11}; //Adres kontrolera, pierwszy bajt 0xAA dla kontrolera 1, 0xBB dla kontrolera 2
+
+//Adres kontrolera, pierwszy bajt 0xAA dla kontrolera 1, 0xBB dla kontrolera 2
+const byte RXAddr1[6] = {0xAA, 0x44, 0x33, 0x22, 0x11}; 
+//const byte RXAddr1[6] = {0xBB, 0x44, 0x33, 0x22, 0x11};
 char readBuf[32];
 
 //Zmienne globalne dla MPU
@@ -85,12 +88,17 @@ void respond() {
 }
 
 void setup() {
+  response.accX = 0;
+  response.accY = 0;
+  response.startContr = 0;
+  response.checksum = 0;
+    
   Wire.begin();
   Serial.begin(9600);
   pinMode(B1_PIN, INPUT_PULLUP);
   pinMode(D1_PIN, OUTPUT);
   digitalWrite(D1_PIN, LOW);
-  delay(1000);
+  delay(1500);
   mpuInit();
   radioInit();
   attachInterrupt(IRQ_PIN, respond, FALLING);
@@ -112,7 +120,10 @@ void loop() {
   mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
   mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
 
+  //x+ dla lewej rakietki, x- dla prawej
   accXSum += (int16_t)aaWorld.y;
+  //accXSum += -(int16_t)aaWorld.y;
+  
   accYSum += (int16_t)aaWorld.z;
   counter++;
 

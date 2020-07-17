@@ -10,7 +10,7 @@ namespace HE {
 //Klasa do obsługi małego wyświetlacza oled
 class Oled {
 private:
-    const FontDef font = Font_11x18; //Wybór czcionki
+    const FontDef font = Font_7x10; //Wybór czcionki
 public:
     Oled();
     void writeLine(uint8_t line, char* text);

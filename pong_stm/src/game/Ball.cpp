@@ -2,7 +2,7 @@
 #include "Game.hpp"
 
 Ball::Ball(float posX, float posY) : 
-	DrawnObject(new GE::Circle(BALL_DEFAULT_PIXEL_RADIUS,10,10,GE::Color::red),1),
+	DrawnObject(new GE::Circle(BALL_DEFAULT_PIXEL_RADIUS,10,10,GE::Color::red), 1),
 	PhysicalObject(Physics::Materials::wood, posX, posY),
 	MovingObject(BALL_DEFAULT_MASS) {
 	this->pixelRaidus = BALL_DEFAULT_PIXEL_RADIUS;
@@ -10,7 +10,7 @@ Ball::Ball(float posX, float posY) :
 	this->drag = BALL_DEFAULT_DRAG;
 	this->dragK = (-0.5f * Physics::viscosity * 2.0f * PI * pow(this->realRaidus, 2) * this->drag) / this->mass;
 	this->acc = { 0.0f, 0.0f };
-	GE::Vector2i q= (Physics::swapY({posX,posY}));
+	GE::Vector2i q = (Physics::swapY(Physics::floatVectorToIntVector(GE::Vector2f(posX, posY))));
 	this->dObject->setPos(q);
 	Collision::getBallCollisionVector()._add(this);
 	isballmove = false;

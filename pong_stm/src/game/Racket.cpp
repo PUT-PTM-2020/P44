@@ -2,9 +2,9 @@
 #include "Racket.hpp"
 #include "Game.hpp"
 
-Racket::Racket(float posX, float posY,bool isAI, int whichPlayer) :
+Racket::Racket(float posX, float posY, bool isAI, int whichPlayer) :
 	MovingObject(RACKET_DEFAULT_MASS), 
-	Rect(RACKET_DEFAULT_PIXEL_SIZE_X, RACKET_DEFAULT_PIXEL_SIZE_Y, 0.0f, Physics::Materials::racket, posX, posY,1){
+	Rect(RACKET_DEFAULT_PIXEL_SIZE_X, RACKET_DEFAULT_PIXEL_SIZE_Y, 0.0f, Physics::Materials::racket, posX, posY, 1) {
 	Collision::getRacketCollisionVector()._add(this);
 	this->isAI = isAI;
 	this->whichPlayer = whichPlayer;
@@ -12,12 +12,9 @@ Racket::Racket(float posX, float posY,bool isAI, int whichPlayer) :
 	this->prev_acc = {0,0};
 }
 
-
-
 void Racket::update() {
 		getSimTime();
 }
-
 
 void Racket::setPos(GE::Vector2i pos)
 {
@@ -33,32 +30,19 @@ GE::Vector2i Racket::getPos()
 	return dObject->getPos();
 }
 
-
-
 void Racket::simulation(GE::Vector2i* pos) {
 
-if(whichPlayer == 1)
+if (whichPlayer == 1)
 {
 	if(Game::radioResponse.startContr1)
 	{
 		checkAcc1 = 0;
-		if(giveVec)
-		{
-			float prop = (pos->x - Gameplay::default_ballLPos.x) / (pos->y - Gameplay::default_ballLPos.y);
-			float y = 2/(prop + 1);
-			float x = prop * y;
-			if(pos->y > Gameplay::default_ballLPos.y) y = -y;
-			if(pos->x > Gameplay::default_ballLPos.x) x = -x;
-			quickVelocityVector = {x,y};
-			giveVec = !giveVec;
-		}
-		if(pos->x <= Gameplay::default_racketLPos.x + 5 && pos->x >= Gameplay::default_racketLPos.x - 5)
-		quickVelocityVector = {0,0};		
+		realPos = Physics::calcRealVector(Gameplay::default_racketLPos); 
+		quickVelocityVector = {0.0f, 0.0f};
 	}
 	else 
 	{
 		checkAcc1 = 1;
-		giveVec = 1;
 	}
 
 	if(abs(Game::radioResponse.accContr1.x - prev_acc.x) > 20.0f && checkAcc1)
@@ -88,23 +72,13 @@ if(whichPlayer == 1)
 			accTrl1=0;
 	}
 }
-else
+else if (whichPlayer == 2)
 {
-	if(Game::radioResponse.startContr1)
+	if(Game::radioResponse.startContr2)
 	{
-		checkAcc1 = 0;
-		if(giveVec)
-		{
-			float prop = (pos->x - Gameplay::default_ballRPos.x) / (pos->y - Gameplay::default_ballRPos.y);
-			float y = 2/(prop + 1);
-			float x = prop * y;
-			if(pos->y > Gameplay::default_ballLPos.y) y = -y;
-			if(pos->x > Gameplay::default_ballLPos.x) x = -x;
-			quickVelocityVector = {x,y};
-			giveVec = !giveVec;
-		}
-		if(pos->x <= Gameplay::default_racketLPos.x + 5 && pos->x >= Gameplay::default_racketLPos.x - 5)
-		quickVelocityVector = {0,0};
+		checkAcc2 = 0;
+		realPos = Physics::calcRealVector(Gameplay::default_racketRPos); 
+		quickVelocityVector = {0.0f, 0.0f};
 	}
 	else 
 	{
@@ -132,7 +106,7 @@ else
 			accTrl2++;
 	}
 	else accTrl2 = 0;
-	if(accTrl2 == 10)
+	if (accTrl2 == 10)
 	{
 			quickVelocityVector = {0.0f, 0.0f};
 			accTrl2=0;
@@ -140,7 +114,14 @@ else
 		
 }
 realPos += (simTime * quickVelocityVector);
+
+if (realPos.x < RACKET_DEFAULT_PIXEL_SIZE_X * PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO) realPos.x = RACKET_DEFAULT_PIXEL_SIZE_X * PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO;
+if (realPos.y < RACKET_DEFAULT_PIXEL_SIZE_Y * PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO) realPos.y = RACKET_DEFAULT_PIXEL_SIZE_Y * PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO;
+if (realPos.x > 480 * PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO) realPos.x = 480 * PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO;
+if (realPos.y > 320 * PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO) realPos.y = 320 * PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO;
+
 *pos = Physics::floatVectorToIntVector(Physics::calcPixelVector(realPos));
+
 }
 
 Racket::~Racket() {

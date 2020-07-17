@@ -18,10 +18,10 @@ ObjectsVector<SimObject*> &Gameplay::getSimVector() {
 
 Gameplay::Gameplay() {
 
-	this->default_ballLPos = { 90,140 };
-	this->default_ballRPos = { 380,140 };
-	this->default_racketLPos = { 20,150 };
-	this->default_racketRPos = { 460,140 };
+	this->default_ballLPos = { 90, 140 };
+	this->default_ballRPos = { 380, 140 };
+	this->default_racketLPos = { 20, 150 };
+	this->default_racketRPos = { 460, 140 };
 
 	this->wallD = new Wall(479,3,0,Physics::Materials::wood,0,0,2);
 	this->wallL = new Wall(2,700,0,Physics::Materials::wood,0,0,1);
@@ -44,12 +44,12 @@ Gameplay::Gameplay() {
 void Gameplay::simulateObjects() {
 
 		for(auto i = this->simVector.get().begin();i!= this->simVector.get().end();i++)
-	 		{
-		GE::Vector2i posBefore = (*i)->getPos();
-		GE::Vector2i posAfter = (*i)->getPos();
-		for (int j = 0; j < Game::simPerFrame; j++) (*i)->simulation(&posAfter);
-		if(posBefore!=posAfter)(*i)->setPos(Physics::swapY(posAfter));	
-			};
+	 	{
+			GE::Vector2i posBefore = (*i)->getPos();
+			GE::Vector2i posAfter = (*i)->getPos();
+			for (int j = 0; j < Game::simPerFrame; j++) (*i)->simulation(&posAfter);
+			if(posBefore!=posAfter)(*i)->setPos(Physics::swapY(posAfter));	
+		};
 }
 
 void Gameplay::simulate() {

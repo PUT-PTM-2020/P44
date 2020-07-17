@@ -4,7 +4,7 @@
 
 
 Table::Table(float pixelSizeX, float pixelSizeY, float angle, Physics::Material material, float pixelPosX, float pixelPosY, int player):
-	Rect(pixelSizeX, pixelSizeY, angle,  material, pixelPosX, pixelPosY,0)
+	Rect(pixelSizeX, pixelSizeY, angle,  material, pixelPosX, pixelPosY, 1)
 {
 	this->player = player;
 	if (player == 1)

@@ -10,7 +10,7 @@ protected:
 	GE::Vector2i localSP, localEP;
 
 public:
-	Rect(float pixelSizeX, float pixelSizeY, float angle, Physics::Material material, float pixelPosX, float pixelPosYi,int which);
+	Rect(float pixelSizeX, float pixelSizeY, float angle, Physics::Material material, float pixelPosX, float pixelPosY,int which);
 	static bool has_collision;
 	virtual ~Rect();
 };

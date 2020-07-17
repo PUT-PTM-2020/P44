@@ -4,7 +4,7 @@
 
 #define PHYSICS_DEFAULT_VISCOSITY 1.225f
 #define PHYSICS_DEFAULT_GRAV 9.81f
-#define PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO 0.008f //Jeden piksel to 0,005 metra
+#define PHYSICS_DEFAULT_PIXEL_TO_REAL_RATIO 0.008f //Jeden piksel to 0,008 metra
 #define PI 3.14159265359f
 struct Physics {
 	static float viscosity, grav, wind;
