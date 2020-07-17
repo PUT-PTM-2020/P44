@@ -81,16 +81,16 @@ void Collision::ballWallCol(Ball *ball, Wall *wall)
 		p1Point(ball,p1);
 	}
 
-	//Nieodpicie pilki przy serwisie przez p1
+	//Nieodpicie pilki przy serwisie przez p2
 	if(ball->p2Serv == 1 && ball->Colision == -1)
 	{
 		p1Point(ball,p1);
 	}	
 
-	//Nieodpicie pilki przy serwisie przez p2
-	if(ball->p2Serv == 1 && ball->Colision == -1)
+	//Nieodpicie pilki przy serwisie przez p1
+	if(ball->p1Serv == 1 && ball->Colision == -1)
 	{
-		p1Point(ball,p1);
+		p2Point(ball,p2);
 	}
 
 	//Serw odbicie od 1 czesci a potem sciana p1
