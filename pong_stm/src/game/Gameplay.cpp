@@ -18,10 +18,10 @@ ObjectsVector<SimObject*> &Gameplay::getSimVector() {
 
 Gameplay::Gameplay() {
 
-	this->default_ballLPos = { 90, 140 };
-	this->default_ballRPos = { 380, 140 };
+	this->default_ballLPos = { 80, 140 };
+	this->default_ballRPos = { 400, 140 };
 	this->default_racketLPos = { 20, 150 };
-	this->default_racketRPos = { 460, 140 };
+	this->default_racketRPos = { 460, 150 };
 
 	this->wallD = new Wall(479,3,0,Physics::Materials::wood,0,0,2);
 	this->wallL = new Wall(2,700,0,Physics::Materials::wood,0,0,1);
