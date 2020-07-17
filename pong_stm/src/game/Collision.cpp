@@ -82,16 +82,27 @@ void Collision::ballWallCol(Ball *ball, Wall *wall)
 	}
 
 	//Nieodpicie pilki przy serwisie przez p1
-
+	if(ball->p2Serv == 1 && ball->Colision == -1)
+	{
+		p1Point(ball,p1);
+	}	
 
 	//Nieodpicie pilki przy serwisie przez p2
-
+	if(ball->p2Serv == 1 && ball->Colision == -1)
+	{
+		p1Point(ball,p1);
+	}
 
 	//Serw odbicie od 1 czesci a potem sciana p1
-
-
+	if(ball->p1Serv == 2 && ball->Colision == -1)
+	{
+		p2Point(ball,p2);
+	}
 	//Serw odbicie od 1 czesci a potem sciana p2
-
+	if(ball->p2Serv == 2 && ball->Colision == -1)
+	{
+		p1Point(ball,p1);
+	}
 	}
 	else
 	{
@@ -302,12 +313,13 @@ unsigned short Collision::ballRectCheck(Ball *ball, Rect *rect)
 		GE::Vector2f proj = {proj_len * unit_seg_v.x,proj_len * unit_seg_v.y};
 		GE::Vector2f closest;
 		if(proj_len < 0) closest = SP;
-		else if (proj_len > rad_segv) closest = {(float)rect->localEP.x, (float)rect->localEP.y};
-		else closest = {(float)rect->localSP.x + (float)proj.x, (float)rect->localSP.y + (float)proj.y};
+		else if (proj_len > rad_segv) closest = {rect->localEP.x,rect->localEP.y};
+		else closest = {(float)rect->localSP.x + (float)proj.x,(float)rect->localSP.y + (float)proj.y};
 
 
 		std::vector<float> distance = {(float)BP.x - (float)closest.x,(float)BP.y - (float)closest.y};
 		float distance_len = sqrt(distance[0] * distance[0] + distance[1] * distance[1]);
+		int x = distance_len;
 		float width = 0;
 		if(rect->dObject->getSizeX() > rect->dObject->getSizeY()) width = (rect->dObject->getSizeY()/2)+3;
 		else if(rect->dObject->getSizeX() < rect->dObject->getSizeY()) width = (rect->dObject->getSizeX()/2)+1;
