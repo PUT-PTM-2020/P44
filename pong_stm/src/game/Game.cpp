@@ -127,7 +127,7 @@ void Game::displayOled() {
 		this->oled->writeLine(1, stringBuf);
 		sprintf(stringBuf, "Opor.: %.3f", Physics::viscosity);
 		this->oled->writeLine(2, stringBuf);
-		sprintf(stringBuf, "Wynik: %i : %i", gameplay->player1Score, gameplay->player2Score);
+		sprintf(stringBuf, "Wynik: %i : %i", Gameplay::player1Score, Gameplay::player2Score);
 		this->oled->writeLine(3, stringBuf);
 		this->oled->display();
 		Game::oledChange = false;

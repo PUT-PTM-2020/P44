@@ -58,51 +58,61 @@ void Collision::ballWallCol(Ball *ball, Wall *wall)
 	unsigned short res = ballRectCheck(ball,wall);
 	if(res == 1 && !col_for_wal)
 	{
-	//Pilka nieodbita prez p2
-	if(p2 && ball->Colision == 1)
-	{
-		p1Point(ball,p1);
-	}
+		//Pilka nieodbita prez p2
+		if(p2 && ball->Colision == 1)
+		{
+			p1Point(ball,p1);
+			return;
+		}
+		//Pilka nieodbita prez p1
+		if(p1 && ball->Colision == 1)
+		{
+			p2Point(ball,p2);
+			return;
+		}
 
-	//Pilka nieodbita prez p1
-	if(p1 && ball->Colision == 1)
-	{
-		p2Point(ball,p2);
-	}
-	//serwis w ktoras ze scian p1
-	if(ball->p1Serv == 1 && ball->Colision == -1)
-	{
-		p2Point(ball,p2);
-	}
+		//serwis w ktoras ze scian p1
+		if(ball->p1Serv == 1 && ball->Colision == -1)
+		{
+			p2Point(ball,p2);
+			return;
+		}
 
-	//serwis w ktoras ze scian p2
-	if(ball->p2Serv == 1 && ball->Colision == -1)
-	{
-		p1Point(ball,p1);
-	}
+		//serwis w ktoras ze scian p2
+		if(ball->p2Serv == 1 && ball->Colision == -1) \
+		{
+			p1Point(ball,p1);
+			return;
+		} 
 
-	//Nieodpicie pilki przy serwisie przez p2
-	if(ball->p2Serv == 1 && ball->Colision == -1)
-	{
-		p1Point(ball,p1);
-	}	
+		//Nieodpicie pilki przy serwisie przez p2
+		if(ball->p2Serv == 1 && ball->Colision == -1)
+		{
+			p1Point(ball,p1);
+			return;
+		}	
 
-	//Nieodpicie pilki przy serwisie przez p1
-	if(ball->p1Serv == 1 && ball->Colision == -1)
-	{
-		p2Point(ball,p2);
-	}
+		//Nieodpicie pilki przy serwisie przez p1
+		if(ball->p1Serv == 1 && ball->Colision == -1)
+		{
+			p2Point(ball,p2);
+			return;
+		}
 
-	//Serw odbicie od 1 czesci a potem sciana p1
-	if(ball->p1Serv == 2 && ball->Colision == -1)
-	{
-		p2Point(ball,p2);
-	}
-	//Serw odbicie od 1 czesci a potem sciana p2
-	if(ball->p2Serv == 2 && ball->Colision == -1)
-	{
-		p1Point(ball,p1);
-	}
+		//Serw odbicie od 1 czesci a potem sciana p1
+		if(ball->p1Serv == 2 && ball->Colision == -1)
+		{
+			//p1Point(ball,p1);
+			p2Point(ball,p2);
+			return;
+		}
+		//Serw odbicie od 1 czesci a potem sciana p2
+		if(ball->p2Serv == 2 && ball->Colision == -1)
+		{
+			p1Point(ball,p1);
+			//p2Point(ball,p2);
+			return;
+		}
 	}
 	else
 	{
@@ -359,6 +369,7 @@ void Collision::p1Point(Ball *ball,Player *p)
 	Gameplay::player1Score++;
 	p->points++;
 	who = 0;
+	Game::oledChange = true;
 
 }
 
@@ -379,6 +390,7 @@ void Collision::p2Point(Ball *ball,Player *p)
 	Gameplay::player2Score++;
 	p->points++;
 	who = 0;
+	Game::oledChange = true;
 	
 }
 
